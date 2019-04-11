@@ -96,20 +96,20 @@
 
 
 
-  <meta name="description" content="这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。 标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。 什么是影响力？">
-<meta name="keywords" content="技术人生">
+  <meta name="description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
+<meta name="keywords" content="mysql,线上问题案例">
 <meta property="og:type" content="article">
-<meta property="og:title" content="新人指导：工作中如何提升自己的影响力">
-<meta property="og:url" content="http://yoursite.com/2019/03/31/新人指导：工作中如何提升自己的影响力/index.html">
+<meta property="og:title" content="事务中主键冲突造成的死锁分析">
+<meta property="og:url" content="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/index.html">
 <meta property="og:site_name" content="meichao&#39;notes">
-<meta property="og:description" content="这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。 标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。 什么是影响力？">
+<meta property="og:description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1w8j9nusrj34802tc1ky.jpg">
-<meta property="og:updated_time" content="2019-04-09T03:47:02.424Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg">
+<meta property="og:updated_time" content="2019-04-11T09:28:31.790Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="新人指导：工作中如何提升自己的影响力">
-<meta name="twitter:description" content="这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。 标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。 什么是影响力？">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1w8j9nusrj34802tc1ky.jpg">
+<meta name="twitter:title" content="事务中主键冲突造成的死锁分析">
+<meta name="twitter:description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg">
 
 
 
@@ -117,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/03/31/新人指导：工作中如何提升自己的影响力/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/">
 
 
 
@@ -127,7 +127,7 @@
   };
 </script>
 
-  <title>新人指导：工作中如何提升自己的影响力 | meichao'notes</title>
+  <title>事务中主键冲突造成的死锁分析 | meichao'notes</title>
   
 
 
@@ -320,7 +320,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/31/新人指导：工作中如何提升自己的影响力/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="梅超">
@@ -337,7 +337,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">新人指导：工作中如何提升自己的影响力
+          <h2 class="post-title" itemprop="name headline">事务中主键冲突造成的死锁分析
 
               
             
@@ -363,7 +363,7 @@
                 
               
 
-              <time title="创建时间：2019-03-31 09:43:14" itemprop="dateCreated datePublished" datetime="2019-03-31T09:43:14+08:00">2019-03-31</time>
+              <time title="创建时间：2018-11-12 11:00:01" itemprop="dateCreated datePublished" datetime="2018-11-12T11:00:01+08:00">2018-11-12</time>
             
 
             
@@ -380,7 +380,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-09 11:47:02" itemprop="dateModified" datetime="2019-04-09T11:47:02+08:00">2019-04-09</time>
+                <time title="修改时间：2019-04-11 17:28:31" itemprop="dateModified" datetime="2019-04-11T17:28:31+08:00">2019-04-11</time>
               
             
           </span>
@@ -414,21 +414,52 @@
       
 
       
-        <p><img src="http://ww1.sinaimg.cn/large/0076eWDSly1g1w8j9nusrj34802tc1ky.jpg" alt></p>
-<p>这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。</p>
-<p>标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。</p>
-<p>什么是影响力？<br><a id="more"></a></p>
-<blockquote>
-<p>影响力就是在某个领域，让某个范围的人认可、欣赏以至于信服的能力。</p>
-</blockquote>
-<p>职场中影响力如何提升，我的建议有一下几点：</p>
-<h3 id="本职工作"><a href="#本职工作" class="headerlink" title="本职工作"></a>本职工作</h3><p>新人初入团队，如何获取到团队领导与成员的信任？<br>很简单：做好领导分配的任务，特别是第一次任务。是任务就难免有合作：组内同事的合作，跨部门同事合作，跨部门沟通等。<br>与同事们沟通是否顺畅，任务完成是否及时，上线后是否核验等诸多细项工作和行为都会给同事们带来印象，这个印象是好是坏就是你在这个团队产生影响力的起点。</p>
-<h3 id="文档输出"><a href="#文档输出" class="headerlink" title="文档输出"></a>文档输出</h3><p>领导交代的工作任务，输出设计文档，用例，流程图，wiki，此做法对后续新人的影响是无穷的</p>
-<h3 id="言行一致"><a href="#言行一致" class="headerlink" title="言行一致"></a>言行一致</h3><p>做出承诺就必须对结果负责，特别是对软件工程师来讲，项目是否严格按照排期进行往往和个人能力相挂钩</p>
-<h3 id="参与讨论积极思考"><a href="#参与讨论积极思考" class="headerlink" title="参与讨论积极思考"></a>参与讨论积极思考</h3><p>产品需求讨论会，软件设计评审会，测试用例评审会，职场中不乏各种会议，某些会议和自己的本职工作息息相关，提出自己的见解和思路，最忌讳低头看手机打瞌睡。</p>
-<h3 id="主动担当"><a href="#主动担当" class="headerlink" title="主动担当"></a>主动担当</h3><p>核心任务，技术攻关，新业务新项目，主动担当。如果你有能力把控整体项目，可以主动和领导沟通，担当突击手，救火队长的角色</p>
-<h3 id="个人精神面貌"><a href="#个人精神面貌" class="headerlink" title="个人精神面貌"></a>个人精神面貌</h3><p>如何你觉得个人精神面貌无足轻重，那就大错特错了。你总是会发现，在某个圈子影响力大的人会具有这些特征：<br>衣冠整洁，说话声音洪亮爽朗，遇事积极乐观，从容不迫，乐于助人。</p>
-<p>工作中的影响力影响巨大，它会辐射到你的生活，甚至改变自己的命运</p>
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>线上业务场景：<br>一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，<br>流程如下图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg" alt><br><a id="more"></a></p>
+<h3 id="死锁分析"><a href="#死锁分析" class="headerlink" title="死锁分析"></a>死锁分析</h3><p>事务隔离级别:<code>REPEATABLE READ</code><br>模拟如下</p>
+<table>
+<thead>
+<tr>
+<th>事务1</th>
+<th>事务2</th>
+<th>事务3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CREATE TABLE <code>test</code> (<br><code>id</code> int(10) unsigned NOT NULL DEFAULT ‘0’,<br><code>age</code> int(10) NOT NULL DEFAULT ‘1’,<br>PRIMARY KEY (<code>id</code>)<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>INSERT INTO test (‘id’,’age’) VALUES (9,29);</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>INSERT INTO test (‘id’,’age’) VALUES (9,29); <em>–阻塞</em></td>
+<td>update test set age = 18 where id = 9;<em>–阻塞</em></td>
+</tr>
+<tr>
+<td>commit;</td>
+<td>ERROR 1062 (23000): Duplicate entry ‘9’ for key ‘PRIMARY’</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>update test set age = 18 where id = 9;</td>
+<td>ERROR 1213 (40001): Deadlock found when trying to get lock; try restarting transaction</td>
+</tr>
+</tbody>
+</table>
+<p>死锁日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engine innodb status \G;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">LATEST DETECTED DEADLOCK</span><br><span class="line">------------------------</span><br><span class="line">2019-04-11 14:00:10 0x70001011f000</span><br><span class="line">*** (1) TRANSACTION:</span><br><span class="line">TRANSACTION 60223, ACTIVE 17 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">LOCK WAIT 2 lock struct(s), heap size 1136, 1 row lock(s)</span><br><span class="line">MySQL thread id 104, OS thread handle 123145572200448, query id 421 localhost root updating</span><br><span class="line">update test set age = 18 where id = 9</span><br><span class="line">*** (1) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60223 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** (2) TRANSACTION:</span><br><span class="line">TRANSACTION 60222, ACTIVE 35 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">3 lock struct(s), heap size 1136, 2 row lock(s)</span><br><span class="line">MySQL thread id 100, OS thread handle 123145571921920, query id 423 localhost root updating</span><br><span class="line">update test set age = 18 where id = 9</span><br><span class="line">*** (2) HOLDS THE LOCK(S):</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60222 lock mode S</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** (2) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60222 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** WE ROLL BACK TRANSACTION (1)</span><br><span class="line">------------</span><br><span class="line">TRANSACTIONS</span><br><span class="line">------------</span><br><span class="line">Trx id counter 60225</span><br></pre></td></tr></table></figure>
+<p>由此可以看出，事务2持有S锁(共享锁)，准备申请X锁，事务3准备申请X锁</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><em>在事务中当需要进行唯一性检查冲突时，需要加S锁</em>。T1与T2执行相同Insert，T1执行成功，T2阻塞，T3阻塞；T1提交后，T2触发检测唯一性检查冲突，对记录加上了S锁，T3申请X锁；此时T2执行update操作，T2申请X锁。此时触发死锁检测机制，发现死锁，T掉T3,T2正常执行。</p>
+<p>解决方案:<br>缩小事务范围<br>1 将是否创建账户方法剔除事务外，只保存余额修改操作<br>2 使用spring注解，设置事务传播级别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(value = &quot;BLPTransactionManager&quot;, propagation = Propagation.NOT_SUPPORTED)</span><br></pre></td></tr></table></figure></p>
+<p>引申</p>
 
       
     </div>
@@ -452,7 +483,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/技术人生/" rel="tag"># 技术人生</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+            <a href="/tags/线上问题案例/" rel="tag"># 线上问题案例</a>
           
         </div>
       
@@ -465,15 +498,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/20/mysql中修改数据与原数据相同是否会再次执行/" rel="next" title="mysql中修改数据与原数据相同是否会再次执行">
-                <i class="fa fa-chevron-left"></i> mysql中修改数据与原数据相同是否会再次执行
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/31/mysql-binlog的3种复制形式及优缺点/" rel="prev" title="mysql binlog的3种复制形式及优缺点">
+                mysql binlog的3种复制形式及优缺点 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -491,7 +524,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2019/03/31/新人指导：工作中如何提升自己的影响力/" title="新人指导：工作中如何提升自己的影响力">2019/03/31/新人指导：工作中如何提升自己的影响力/</a>
+          <a href="/2018/11/12/事务中主键冲突造成的死锁分析/" title="事务中主键冲突造成的死锁分析">2018/11/12/事务中主键冲突造成的死锁分析/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -620,7 +653,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本职工作"><span class="nav-number">1.</span> <span class="nav-text">本职工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文档输出"><span class="nav-number">2.</span> <span class="nav-text">文档输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#言行一致"><span class="nav-number">3.</span> <span class="nav-text">言行一致</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参与讨论积极思考"><span class="nav-number">4.</span> <span class="nav-text">参与讨论积极思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主动担当"><span class="nav-number">5.</span> <span class="nav-text">主动担当</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个人精神面貌"><span class="nav-number">6.</span> <span class="nav-text">个人精神面貌</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁分析"><span class="nav-number">2.</span> <span class="nav-text">死锁分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

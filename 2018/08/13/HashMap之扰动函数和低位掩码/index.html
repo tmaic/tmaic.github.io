@@ -96,20 +96,20 @@
 
 
 
-  <meta name="description" content="这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。 标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。 什么是影响力？">
-<meta name="keywords" content="技术人生">
+  <meta name="description" content="我们都知道，hashmap在实现的时候,为了寻找在数组上的位置，主要做了两件事12int hash = hash(key);int i = indexFor(hash, table.length); 这两个方法详解如下JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图1234static final int hash(Object key)&amp;">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="新人指导：工作中如何提升自己的影响力">
-<meta property="og:url" content="http://yoursite.com/2019/03/31/新人指导：工作中如何提升自己的影响力/index.html">
+<meta property="og:title" content="HashMap之扰动函数和低位掩码">
+<meta property="og:url" content="http://yoursite.com/2018/08/13/HashMap之扰动函数和低位掩码/index.html">
 <meta property="og:site_name" content="meichao&#39;notes">
-<meta property="og:description" content="这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。 标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。 什么是影响力？">
+<meta property="og:description" content="我们都知道，hashmap在实现的时候,为了寻找在数组上的位置，主要做了两件事12int hash = hash(key);int i = indexFor(hash, table.length); 这两个方法详解如下JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图1234static final int hash(Object key)&amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1w8j9nusrj34802tc1ky.jpg">
-<meta property="og:updated_time" content="2019-04-13T07:17:45.708Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g21bd9i6x8j30ga09cq37.jpg">
+<meta property="og:updated_time" content="2019-04-13T13:14:56.414Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="新人指导：工作中如何提升自己的影响力">
-<meta name="twitter:description" content="这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。 标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。 什么是影响力？">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1w8j9nusrj34802tc1ky.jpg">
+<meta name="twitter:title" content="HashMap之扰动函数和低位掩码">
+<meta name="twitter:description" content="我们都知道，hashmap在实现的时候,为了寻找在数组上的位置，主要做了两件事12int hash = hash(key);int i = indexFor(hash, table.length); 这两个方法详解如下JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图1234static final int hash(Object key)&amp;">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g21bd9i6x8j30ga09cq37.jpg">
 
 
 
@@ -117,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/03/31/新人指导：工作中如何提升自己的影响力/">
+  <link rel="canonical" href="http://yoursite.com/2018/08/13/HashMap之扰动函数和低位掩码/">
 
 
 
@@ -127,7 +127,7 @@
   };
 </script>
 
-  <title>新人指导：工作中如何提升自己的影响力 | meichao'notes</title>
+  <title>HashMap之扰动函数和低位掩码 | meichao'notes</title>
   
 
 
@@ -337,7 +337,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/31/新人指导：工作中如何提升自己的影响力/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/13/HashMap之扰动函数和低位掩码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="梅超">
@@ -354,7 +354,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">新人指导：工作中如何提升自己的影响力
+          <h2 class="post-title" itemprop="name headline">HashMap之扰动函数和低位掩码
 
               
             
@@ -380,7 +380,7 @@
                 
               
 
-              <time title="创建时间：2019-03-31 09:43:14" itemprop="dateCreated datePublished" datetime="2019-03-31T09:43:14+08:00">2019-03-31</time>
+              <time title="创建时间：2018-08-13 20:38:22" itemprop="dateCreated datePublished" datetime="2018-08-13T20:38:22+08:00">2018-08-13</time>
             
 
             
@@ -397,7 +397,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-13 15:17:45" itemprop="dateModified" datetime="2019-04-13T15:17:45+08:00">2019-04-13</time>
+                <time title="修改时间：2019-04-13 21:14:56" itemprop="dateModified" datetime="2019-04-13T21:14:56+08:00">2019-04-13</time>
               
             
           </span>
@@ -414,7 +414,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术人生/" itemprop="url" rel="index"><span itemprop="name">技术人生</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java基础/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a></span>
 
                 
                 
@@ -449,21 +449,17 @@
       
 
       
-        <p><img src="http://ww1.sinaimg.cn/large/0076eWDSly1g1w8j9nusrj34802tc1ky.jpg" alt></p>
-<p>这篇文章是结合自己多年的工作有感而发，虽是新人指导，但不单指新人，因为你经常会发现几年工作经验的老手也经常不知如何融入团队，如何提升自己的影响力。</p>
-<p>标题看似有点大，但在工作中个人的影响力确在一点一滴中体现。</p>
-<p>什么是影响力？<br><a id="more"></a></p>
-<blockquote>
-<p>影响力就是在某个领域，让某个范围的人认可、欣赏以至于信服的能力。</p>
-</blockquote>
-<p>职场中影响力如何提升，我的建议有一下几点：</p>
-<h3 id="本职工作"><a href="#本职工作" class="headerlink" title="本职工作"></a>本职工作</h3><p>新人初入团队，如何获取到团队领导与成员的信任？<br>很简单：做好领导分配的任务，特别是第一次任务。是任务就难免有合作：组内同事的合作，跨部门同事合作，跨部门沟通等。<br>与同事们沟通是否顺畅，任务完成是否及时，上线后是否核验等诸多细项工作和行为都会给同事们带来印象，这个印象是好是坏就是你在这个团队产生影响力的起点。</p>
-<h3 id="文档输出"><a href="#文档输出" class="headerlink" title="文档输出"></a>文档输出</h3><p>领导交代的工作任务，输出设计文档，用例，流程图，wiki，此做法对后续新人的影响是无穷的</p>
-<h3 id="言行一致"><a href="#言行一致" class="headerlink" title="言行一致"></a>言行一致</h3><p>做出承诺就必须对结果负责，特别是对软件工程师来讲，项目是否严格按照排期进行往往和个人能力相挂钩</p>
-<h3 id="参与讨论积极思考"><a href="#参与讨论积极思考" class="headerlink" title="参与讨论积极思考"></a>参与讨论积极思考</h3><p>产品需求讨论会，软件设计评审会，测试用例评审会，职场中不乏各种会议，某些会议和自己的本职工作息息相关，提出自己的见解和思路，最忌讳低头看手机打瞌睡。</p>
-<h3 id="主动担当"><a href="#主动担当" class="headerlink" title="主动担当"></a>主动担当</h3><p>核心任务，技术攻关，新业务新项目，主动担当。如果你有能力把控整体项目，可以主动和领导沟通，担当突击手，救火队长的角色</p>
-<h3 id="个人精神面貌"><a href="#个人精神面貌" class="headerlink" title="个人精神面貌"></a>个人精神面貌</h3><p>如何你觉得个人精神面貌无足轻重，那就大错特错了。你总是会发现，在某个圈子影响力大的人会具有这些特征：<br>衣冠整洁，说话声音洪亮爽朗，遇事积极乐观，从容不迫，乐于助人。</p>
-<p>工作中的影响力影响巨大，它会辐射到你的生活，甚至改变自己的命运</p>
+        <p>我们都知道，hashmap在实现的时候,为了寻找在数组上的位置，主要做了两件事<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int hash = hash(key);</span><br><span class="line">int i = indexFor(hash, table.length);</span><br></pre></td></tr></table></figure></p>
+<p>这两个方法详解如下<br>JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static final int hash(Object key)&#123;</span><br><span class="line">         int h;</span><br><span class="line">         return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>这个散列值是不能直接拿来用的。用之前还要先做对数组的长度取模运算，得到的余数才能用来访问数组下标。源码中模运算是在这个indexFor( )函数里完成的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static int indexFor(int h, int length)&#123;</span><br><span class="line">     return h &amp; (length - 1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实，它就是取模。Java之所有使用位运算(&amp;)与来代替取模运算(%)，最主要的考虑就是效率。位运算(&amp;)效率要比代替取模运算(%)高很多，主要原因是位运算直接对内存数据进行操作，不需要转成十进制，因此处理速度非常快。</p>
+<p>indexFor代码，正好解释了为什么HashMap的数组长度要取2的整次幂。因为这样（数组长度-1）正好相当于一个“低位掩码”。“与”操作的结果就是散列值的高位全部归零，只保留低位值，用来做数组下标访问。以初始长度16为例，16-1=15。2进制表示是00000000 00000000 00001111。和某散列值做“与”操作如下，结果就是截取了最低的四位值。<br>也就是说，一个数对2^n取模 == 一个数和(2^n – 1)做按位与运算 。比如<br>6%8 = 6,6&amp;(8-1)=6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">6的二进制：110</span><br><span class="line">7的二进制：111</span><br><span class="line"></span><br><span class="line"> 0110</span><br><span class="line">&amp;</span><br><span class="line"> 1110</span><br><span class="line">=</span><br><span class="line"> 110</span><br><span class="line">即：=6</span><br></pre></td></tr></table></figure>
+<p>但这样做有一个问题，比如上述的初始长度16的hashmap，其hash计算出来的index总是和hash的低4位有关，与高位无关了，这样无形就加大了碰撞冲突的几率；所以java8才出现上面的扰乱函数，其重要目的是将高位和低位进行或操作，这样就将高位和低位的特征结合起来了，高位的信息也被变相保留下来。在进行上述的与运算，就降低了碰撞，测试结果大概降低了10%</p>
+<p><img src="http://ww1.sinaimg.cn/large/0076eWDSly1g21bd9i6x8j30ga09cq37.jpg" alt></p>
+<p>JDK 7做了4次右移，估计是边际效应的原因，JDK8就只做了一次右移。</p>
+<p>另外 JDK8在链表长度超过8的时候，就使用红黑树做存储。这一改变大大优化了很多性能。</p>
 
       
     </div>
@@ -487,7 +483,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/技术人生/" rel="tag"># 技术人生</a>
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -500,8 +496,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/20/mysql中修改数据与原数据相同是否会再次执行/" rel="next" title="mysql中修改数据与原数据相同是否会再次执行">
-                <i class="fa fa-chevron-left"></i> mysql中修改数据与原数据相同是否会再次执行
+              <a href="/2018/06/11/查询正在执行的事务和相关锁信息/" rel="next" title="查询正在执行的事务和相关锁信息">
+                <i class="fa fa-chevron-left"></i> 查询正在执行的事务和相关锁信息
               </a>
             
           </div>
@@ -509,6 +505,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/11/谈谈事务的隔离级别与锁/" rel="prev" title="谈谈事务的隔离级别与锁">
+                谈谈事务的隔离级别与锁 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -526,7 +526,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2019/03/31/新人指导：工作中如何提升自己的影响力/" title="新人指导：工作中如何提升自己的影响力">2019/03/31/新人指导：工作中如何提升自己的影响力/</a>
+          <a href="/2018/08/13/HashMap之扰动函数和低位掩码/" title="HashMap之扰动函数和低位掩码">2018/08/13/HashMap之扰动函数和低位掩码/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -571,17 +571,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -671,23 +662,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本职工作"><span class="nav-number">1.</span> <span class="nav-text">本职工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文档输出"><span class="nav-number">2.</span> <span class="nav-text">文档输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#言行一致"><span class="nav-number">3.</span> <span class="nav-text">言行一致</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参与讨论积极思考"><span class="nav-number">4.</span> <span class="nav-text">参与讨论积极思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主动担当"><span class="nav-number">5.</span> <span class="nav-text">主动担当</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个人精神面貌"><span class="nav-number">6.</span> <span class="nav-text">个人精神面貌</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       

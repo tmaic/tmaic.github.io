@@ -105,7 +105,7 @@
 <meta property="og:description" content="业务背景近期公司上线猜大盘的营销活动，其中有个排行榜功能，规则为按照三个字段综合排序(优先按照猜中次数排序，其次按照胜率排序，最后按照首次参与时间排序)：- 猜中次数:guessNum- 胜率:guessRate- 首次参与时间:fristTime  最初的实现初期探讨的主要有两种实现方案：  方案一：记录用户猜测记录，收盘后结算用户是否猜中，并记录用户本期的汇总数据，比如猜中几次，胜率等。排序使">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g2140e3ewaj31xw0x0ws8.jpg">
-<meta property="og:updated_time" content="2019-04-13T09:12:48.550Z">
+<meta property="og:updated_time" content="2019-04-13T09:36:25.882Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis SortedSet 多字段排序设计">
 <meta name="twitter:description" content="业务背景近期公司上线猜大盘的营销活动，其中有个排行榜功能，规则为按照三个字段综合排序(优先按照猜中次数排序，其次按照胜率排序，最后按照首次参与时间排序)：- 猜中次数:guessNum- 胜率:guessRate- 首次参与时间:fristTime  最初的实现初期探讨的主要有两种实现方案：  方案一：记录用户猜测记录，收盘后结算用户是否猜中，并记录用户本期的汇总数据，比如猜中几次，胜率等。排序使">
@@ -397,7 +397,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-13 17:12:48" itemprop="dateModified" datetime="2019-04-13T17:12:48+08:00">2019-04-13</time>
+                <time title="修改时间：2019-04-13 17:36:25" itemprop="dateModified" datetime="2019-04-13T17:36:25+08:00">2019-04-13</time>
               
             
           </span>
@@ -461,7 +461,7 @@
 <h4 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h4><p>设计探讨：由于需要使用3个字段<code>guessNum</code>,<code>guessRate</code>,<code>fristTime</code>作为排序依据,所以如何把3个字段合并为1个字段计入score，是解决问题的关键；<br>分析:<code>guessNum</code>，猜大盘每月开启一期，每个工作日最多猜测两次，即最大为60次，将60转为二进制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(&quot;args = [&quot; + Long.toBinaryString(60l) + &quot;]&quot;);</span><br><span class="line">-----</span><br><span class="line">result:args = [111100]</span><br></pre></td></tr></table></figure></p>
 <p>即：guessNum在二进制中最大占6位<br>分析:<code>guessRate</code>,胜率保留两位小数，我们扩大100倍，即值最大为10000(100%)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(&quot;guessRate = [&quot; + Long.toBinaryString(10000l) + &quot;]&quot;);</span><br><span class="line">---</span><br><span class="line">result:guessRate = [10011100010000]</span><br></pre></td></tr></table></figure></p>
 <p>即：guessNum在二进制中最大占14位<br>分析:<code>fristTime</code>,日期时间精确到秒，和上述同理，在二进制中最大占33位</p>
-<p>总结：6+14+33 还远远小于64位，即通过<font color="#F66423">移位(&gt;&gt;)和或(|)</font>运算可将3个字段计入score中<br>公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static long  excScore(long guessNum,long guessRate,long guessTime)&#123;</span><br><span class="line">        return guessNum &lt;&lt; 47 | guessRate &lt;&lt; 33 | guessTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>总结：6+14+33 还远远小于64位，即通过<font color="#F66423">移位(&gt;&gt;)和或(|)</font> 运算可将3个字段计入score中。<br>ps:[位运算参考链接]:<a href="https://zhuanlan.zhihu.com/p/37549805" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37549805</a><br>公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static long  excScore(long guessNum,long guessRate,long guessTime)&#123;</span><br><span class="line">        return guessNum &lt;&lt; 47 | guessRate &lt;&lt; 33 | guessTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>流程及测试数据：<br><img src="http://ww1.sinaimg.cn/large/0076eWDSly1g2140e3ewaj31xw0x0ws8.jpg" alt></p>
 <h4 id="生产问题思考"><a href="#生产问题思考" class="headerlink" title="生产问题思考"></a>生产问题思考</h4><p>实际线上用户投诉：每期结束后，排序计算会持续一段时间，此时用户看到的排行会发生变化，用户当时看到的排行可能和最终排行不一致，导致投诉。解决每次排序重新生成新的缓存key，存储的信息也需要带有本次更新时间等，避免投诉。</p>
 
@@ -596,7 +596,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -621,11 +621,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -646,7 +642,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>

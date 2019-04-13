@@ -96,20 +96,18 @@
 
 
 
-  <meta name="description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
-<meta name="keywords" content="mysql,线上问题案例">
+  <meta name="description" content="前言事务隔离是事务的4个特性之一（ACID:原子性，一致性，隔离性，持久性)；隔离级别是为了解决：当多个事务同时执行的时候，可能出现脏读，不可重复读，幻读的问题。  幻读，就是同一个事务，连续做两次当前读 (例如：select * from t1 where id = 10 for update;)，那么这两次当前读返回的是完全相同的记录 (记录数量一致，记录本身也一致)，第二次的当前读，不会比第">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="事务中主键冲突造成的死锁分析">
-<meta property="og:url" content="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/index.html">
+<meta property="og:title" content="谈谈事务的隔离级别与锁">
+<meta property="og:url" content="http://yoursite.com/2018/10/11/谈谈事务的隔离级别与锁/index.html">
 <meta property="og:site_name" content="meichao&#39;notes">
-<meta property="og:description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
+<meta property="og:description" content="前言事务隔离是事务的4个特性之一（ACID:原子性，一致性，隔离性，持久性)；隔离级别是为了解决：当多个事务同时执行的时候，可能出现脏读，不可重复读，幻读的问题。  幻读，就是同一个事务，连续做两次当前读 (例如：select * from t1 where id = 10 for update;)，那么这两次当前读返回的是完全相同的记录 (记录数量一致，记录本身也一致)，第二次的当前读，不会比第">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg">
-<meta property="og:updated_time" content="2019-04-13T07:27:39.752Z">
+<meta property="og:updated_time" content="2019-04-13T07:28:23.288Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="事务中主键冲突造成的死锁分析">
-<meta name="twitter:description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg">
+<meta name="twitter:title" content="谈谈事务的隔离级别与锁">
+<meta name="twitter:description" content="前言事务隔离是事务的4个特性之一（ACID:原子性，一致性，隔离性，持久性)；隔离级别是为了解决：当多个事务同时执行的时候，可能出现脏读，不可重复读，幻读的问题。  幻读，就是同一个事务，连续做两次当前读 (例如：select * from t1 where id = 10 for update;)，那么这两次当前读返回的是完全相同的记录 (记录数量一致，记录本身也一致)，第二次的当前读，不会比第">
 
 
 
@@ -117,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/">
+  <link rel="canonical" href="http://yoursite.com/2018/10/11/谈谈事务的隔离级别与锁/">
 
 
 
@@ -127,7 +125,7 @@
   };
 </script>
 
-  <title>事务中主键冲突造成的死锁分析 | meichao'notes</title>
+  <title>谈谈事务的隔离级别与锁 | meichao'notes</title>
   
 
 
@@ -337,7 +335,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/11/谈谈事务的隔离级别与锁/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="梅超">
@@ -354,7 +352,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">事务中主键冲突造成的死锁分析
+          <h2 class="post-title" itemprop="name headline">谈谈事务的隔离级别与锁
 
               
             
@@ -380,7 +378,7 @@
                 
               
 
-              <time title="创建时间：2018-11-12 11:00:01" itemprop="dateCreated datePublished" datetime="2018-11-12T11:00:01+08:00">2018-11-12</time>
+              <time title="创建时间：2018-10-11 21:44:25" itemprop="dateCreated datePublished" datetime="2018-10-11T21:44:25+08:00">2018-10-11</time>
             
 
             
@@ -397,7 +395,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-13 15:27:39" itemprop="dateModified" datetime="2019-04-13T15:27:39+08:00">2019-04-13</time>
+                <time title="修改时间：2019-04-13 15:28:23" itemprop="dateModified" datetime="2019-04-13T15:28:23+08:00">2019-04-13</time>
               
             
           </span>
@@ -414,7 +412,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/经验总结/" itemprop="url" rel="index"><span itemprop="name">经验总结</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -449,54 +447,45 @@
       
 
       
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>线上业务场景：<br>一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，<br>流程如下图：</p>
-<p><img src="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg" alt><br><a id="more"></a></p>
-<h3 id="死锁分析"><a href="#死锁分析" class="headerlink" title="死锁分析"></a>死锁分析</h3><p>事务隔离级别:<code>REPEATABLE READ</code><br>模拟如下</p>
-<table>
-<thead>
-<tr>
-<th>事务1</th>
-<th>事务2</th>
-<th>事务3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CREATE TABLE <code>test</code> (<br><code>id</code> int(10) unsigned NOT NULL DEFAULT ‘0’,<br><code>age</code> int(10) NOT NULL DEFAULT ‘1’,<br>PRIMARY KEY (<code>id</code>)<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>INSERT INTO test (‘id’,’age’) VALUES (9,29);</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>INSERT INTO test (‘id’,’age’) VALUES (9,29); <em>–阻塞</em></td>
-<td>update test set age = 18 where id = 9;<em>–阻塞</em></td>
-</tr>
-<tr>
-<td>commit;</td>
-<td>ERROR 1062 (23000): Duplicate entry ‘9’ for key ‘PRIMARY’</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>update test set age = 18 where id = 9;</td>
-<td>ERROR 1213 (40001): Deadlock found when trying to get lock; try restarting transaction</td>
-</tr>
-</tbody>
-</table>
-<p>死锁日志：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engine innodb status \G;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">LATEST DETECTED DEADLOCK</span><br><span class="line">------------------------</span><br><span class="line">2019-04-11 14:00:10 0x70001011f000</span><br><span class="line">*** (1) TRANSACTION:</span><br><span class="line">TRANSACTION 60223, ACTIVE 17 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">LOCK WAIT 2 lock struct(s), heap size 1136, 1 row lock(s)</span><br><span class="line">MySQL thread id 104, OS thread handle 123145572200448, query id 421 localhost root updating</span><br><span class="line">update test set age = 18 where id = 9</span><br><span class="line">*** (1) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60223 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** (2) TRANSACTION:</span><br><span class="line">TRANSACTION 60222, ACTIVE 35 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">3 lock struct(s), heap size 1136, 2 row lock(s)</span><br><span class="line">MySQL thread id 100, OS thread handle 123145571921920, query id 423 localhost root updating</span><br><span class="line">update test set age = 18 where id = 9</span><br><span class="line">*** (2) HOLDS THE LOCK(S):</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60222 lock mode S</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** (2) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60222 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** WE ROLL BACK TRANSACTION (1)</span><br><span class="line">------------</span><br><span class="line">TRANSACTIONS</span><br><span class="line">------------</span><br><span class="line">Trx id counter 60225</span><br></pre></td></tr></table></figure>
-<p>由此可以看出，事务2持有S锁(共享锁)，准备申请X锁，事务3准备申请X锁</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><em>在事务中当需要进行唯一性检查冲突时，需要加S锁</em>。T1与T2执行相同Insert，T1执行成功，T2阻塞，T3阻塞；T1提交后，T2触发检测唯一性检查冲突，对记录加上了S锁，T3申请X锁；此时T2执行update操作，T2申请X锁。此时触发死锁检测机制，发现死锁，T掉T3,T2正常执行。</p>
-<p>解决方案:</p>
-<p>缩小事务范围<br>1 将是否创建账户方法剔除事务外，只保存余额修改操作<br>2 使用spring注解，设置事务传播级别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(value = &quot;BLPTransactionManager&quot;, propagation = Propagation.NOT_SUPPORTED)</span><br></pre></td></tr></table></figure></p>
-<p>引申</p>
-<p>在MySQL中，行级锁并不是直接锁记录，而是锁索引。索引分为主键索引和非主键索引两种，如果一条sql语句操作了主键索引，MySQL就会锁定这条主键索引；如果一条语句操作了非主键索引，MySQL会先锁定该非主键索引，再锁定相关的主键索引。如果事务中存在：一 使用主键索引进行更新，二 使用非主键索引进行范围更新，并发情况下大几率会死锁</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>事务隔离是事务的4个特性之一（ACID:原子性，一致性，隔离性，持久性)；隔离级别是为了解决：当多个事务同时执行的时候，可能出现脏读，不可重复读，幻读的问题。</p>
+<blockquote>
+<p>幻读，就是同一个事务，连续做两次当前读 (例如：select * from t1 where id = 10 for update;)，那么这两次当前读返回的是完全相同的记录 (记录数量一致，记录本身也一致)，第二次的当前读，不会比第一次返回更多的记录 (幻象)</p>
+</blockquote>
+<p>mysql innodb提供4中隔离级别</p>
+<ul>
+<li>未提交读（read uncommited）</li>
+<li>提交读（read commited）</li>
+<li>可重复读(reapeatable read)</li>
+<li>可串行化(serializable)</li>
+</ul>
+<p>Innodb 使用不同的锁定策略支持不同的事务隔离级别，比如默认的Repeatable read级别强制执行高度一致性<br><a id="more"></a></p>
+<h3 id="未提交读-READ-UNCOMMITTED"><a href="#未提交读-READ-UNCOMMITTED" class="headerlink" title="未提交读(READ_UNCOMMITTED)"></a>未提交读(READ_UNCOMMITTED)</h3><p>一个事务还没提交，它做的变更就能被别的事务看到，SELECT语句以非锁定方式执行，此时会存在脏读；</p>
+<h3 id="提交读-READ-COMMITTED"><a href="#提交读-READ-COMMITTED" class="headerlink" title="提交读(READ_COMMITTED)"></a>提交读(READ_COMMITTED)</h3><p>一个事务提交后，它做的变更才能被其他事务看到<br>对于锁定读取（SELECT FOR UPDATE or LOCK IN SHARE MODE），UPDATE语句和DELETE语句，InnoDB仅锁定索引记录，而不锁定它们之前的间隙，因此允许在锁定记录旁边自由插入新记录。此时存在不可重复读的问题</p>
+<h3 id="可重复读（Repeatable-read）"><a href="#可重复读（Repeatable-read）" class="headerlink" title="可重复读（Repeatable read）"></a>可重复读（Repeatable read）</h3><p>一个事务执行过程中看到的数据，总是跟事务启动时看到的数据是一致的。<br>对于锁定读取（SELECT FOR UPDATE或LOCK IN SHARE MODE），UPDATE和DELETE语句，锁定取决于语句搜索条件是唯一索引还是范围类型搜索条件。</p>
+<ul>
+<li>唯一搜索条件的唯一索引，InnoDB仅锁定找到的索引记录，而不是之前的间隙。</li>
+<li>对于其他搜索条件，InnoDB锁定扫描的索引范围，使用间隙锁（<code>gap lock</code>）或下一键锁(<code>Next-key lock</code>)来阻止其他会话插入范围所覆盖的间隙<br>此时存在幻读的问题。使用<code>Next-key lock</code>可以解决幻读问题，即锁定读取：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select *  from tx_tb where pId &gt;= 1 lock in share mode;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="串行化-serializable"><a href="#串行化-serializable" class="headerlink" title="串行化(serializable)"></a>串行化(serializable)</h3><p>同一行记录，写会加写锁，读会加读锁，当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完毕，才能继续执行;<br>在该隔离级别下，所有的<code>select</code>语句后都自动加上<code>lock in share mode</code></p>
+<h3 id="引申"><a href="#引申" class="headerlink" title="引申"></a>引申</h3><p>锁说明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">X锁：排他锁、又称写锁。若事务T对数据对象A加上X锁，事务T可以读A也可以修改A，</span><br><span class="line">其他事务不能再对A加任何锁，直到T释放A上的锁。这保证了其他事务在T释放A上的锁之前不能再读取和修改A。</span><br><span class="line"></span><br><span class="line">S锁：共享锁，又称读锁，若事务T对数据对象A加上S锁，则事务T可以读A但不能修改A，</span><br><span class="line">其他事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁。这保证了其他事务可以读A，</span><br><span class="line">但在T释放A上的S锁之前不能对A做任何修改。</span><br><span class="line">	</span><br><span class="line">Gap Lock：间隙锁，锁定一个范围，但不包括记录本身。GAP锁的目的，是为了防止同一事务</span><br><span class="line">的两次当前读，出现幻读的情况。</span><br><span class="line"></span><br><span class="line">Next-Key Lock：1+2，锁定一个范围，并且锁定记录本身。对于行的查询，都是采用该方法，</span><br><span class="line">主要目的是解决幻读的问题。</span><br></pre></td></tr></table></figure></p>
+<p>在RR级别下，快照读是通过MVVC(多版本控制)和undo log来实现的，当前读是通过加record lock(记录锁)和gap lock(间隙锁)来实现的</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Mysql 的默认隔离级别为可重复读 RR（repeatable-read）。</p>
+<p>隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也越大。因此在开发中需要根据实际情况来进行取舍。</p>
+<p>RC的优点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对锁的开销小，基本上不会有Gap lock，那么导致死锁和锁等待的可能就小</span><br></pre></td></tr></table></figure></p>
+<p>RC的缺点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.存在幻读</span><br><span class="line">2.事务类的每条select 都会产生新的read-view，造成资源浪费</span><br></pre></td></tr></table></figure></p>
+<p>RR的优点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.一个事务，只在开始时才会产生read-view，消耗较小</span><br><span class="line">2.解决幻读</span><br></pre></td></tr></table></figure></p>
+<p>RR缺点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">由于RR的实现，是通过Gap-lock实现，经常会锁定一个范围，那么导致死锁和锁等待的概率非常大</span><br></pre></td></tr></table></figure></p>
+<p>一般我们生产环境的标配，都是<code>RC+Row</code> 模式，理由：</p>
+<ul>
+<li>在RR隔离级别下，存在间隙锁，导致出现死锁的几率比RC大的多！</li>
+<li>在RR隔离级别下，条件列未命中索引会锁表！而在RC隔离级别下，只锁行</li>
+<li>在RC隔离级别下，半一致性读(semi-consistent)特性增加了update操作的并发性！</li>
+</ul>
+<blockquote>
+<p>所谓半一致性读就是，一个update语句，如果读到一行已经加锁的记录，此时InnoDB返回记录最近提交的版本，由MySQL上层判断此版本是否满足update的where条件。若满足(需要更新)，则MySQL会重新发起一次读操作，此时会读取行的最新版本(并加锁)！</p>
+</blockquote>
+<p>参考：&gt;<a href="https://www.cnblogs.com/rjzheng/p/9950951.html" target="_blank" rel="noopener">https://www.cnblogs.com/rjzheng/p/9950951.html</a></p>
 
       
     </div>
@@ -522,8 +511,6 @@
           
             <a href="/tags/mysql/" rel="tag"># mysql</a>
           
-            <a href="/tags/线上问题案例/" rel="tag"># 线上问题案例</a>
-          
         </div>
       
 
@@ -535,8 +522,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/11/谈谈事务的隔离级别与锁/" rel="next" title="谈谈事务的隔离级别与锁">
-                <i class="fa fa-chevron-left"></i> 谈谈事务的隔离级别与锁
+              <a href="/2018/06/11/查询正在执行的事务和相关锁信息/" rel="next" title="查询正在执行的事务和相关锁信息">
+                <i class="fa fa-chevron-left"></i> 查询正在执行的事务和相关锁信息
               </a>
             
           </div>
@@ -545,8 +532,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/31/mysql-binlog的3种复制形式及优缺点/" rel="prev" title="mysql binlog的3种复制形式及优缺点">
-                mysql binlog的3种复制形式及优缺点 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/12/事务中主键冲突造成的死锁分析/" rel="prev" title="事务中主键冲突造成的死锁分析">
+                事务中主键冲突造成的死锁分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -565,7 +552,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2018/11/12/事务中主键冲突造成的死锁分析/" title="事务中主键冲突造成的死锁分析">2018/11/12/事务中主键冲突造成的死锁分析/</a>
+          <a href="/2018/10/11/谈谈事务的隔离级别与锁/" title="谈谈事务的隔离级别与锁">2018/10/11/谈谈事务的隔离级别与锁/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -723,7 +710,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁分析"><span class="nav-number">2.</span> <span class="nav-text">死锁分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#未提交读-READ-UNCOMMITTED"><span class="nav-number">2.</span> <span class="nav-text">未提交读(READ_UNCOMMITTED)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交读-READ-COMMITTED"><span class="nav-number">3.</span> <span class="nav-text">提交读(READ_COMMITTED)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可重复读（Repeatable-read）"><span class="nav-number">4.</span> <span class="nav-text">可重复读（Repeatable read）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行化-serializable"><span class="nav-number">5.</span> <span class="nav-text">串行化(serializable)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引申"><span class="nav-number">6.</span> <span class="nav-text">引申</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

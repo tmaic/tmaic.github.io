@@ -96,20 +96,18 @@
 
 
 
-  <meta name="description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
-<meta name="keywords" content="mysql,线上问题案例">
+  <meta name="description" content="环境表及执行引擎123456mysql&amp;gt; show create table test;| test  | CREATE TABLE `test` (  `id` int(10) unsigned NOT NULL DEFAULT &amp;apos;0&amp;apos;,  `age` int(10) NOT NULL DEFAULT &amp;apos;1&amp;apos;,  PRIMARY KEY (`id`)">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="事务中主键冲突造成的死锁分析">
-<meta property="og:url" content="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/index.html">
+<meta property="og:title" content="查询正在执行的事务和相关锁信息">
+<meta property="og:url" content="http://yoursite.com/2018/06/11/查询正在执行的事务和相关锁信息/index.html">
 <meta property="og:site_name" content="meichao&#39;notes">
-<meta property="og:description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
+<meta property="og:description" content="环境表及执行引擎123456mysql&amp;gt; show create table test;| test  | CREATE TABLE `test` (  `id` int(10) unsigned NOT NULL DEFAULT &amp;apos;0&amp;apos;,  `age` int(10) NOT NULL DEFAULT &amp;apos;1&amp;apos;,  PRIMARY KEY (`id`)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg">
-<meta property="og:updated_time" content="2019-04-13T07:27:39.752Z">
+<meta property="og:updated_time" content="2019-04-13T09:13:03.959Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="事务中主键冲突造成的死锁分析">
-<meta name="twitter:description" content="背景线上业务场景：一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，流程如下图：">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg">
+<meta name="twitter:title" content="查询正在执行的事务和相关锁信息">
+<meta name="twitter:description" content="环境表及执行引擎123456mysql&amp;gt; show create table test;| test  | CREATE TABLE `test` (  `id` int(10) unsigned NOT NULL DEFAULT &amp;apos;0&amp;apos;,  `age` int(10) NOT NULL DEFAULT &amp;apos;1&amp;apos;,  PRIMARY KEY (`id`)">
 
 
 
@@ -117,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/">
+  <link rel="canonical" href="http://yoursite.com/2018/06/11/查询正在执行的事务和相关锁信息/">
 
 
 
@@ -127,7 +125,7 @@
   };
 </script>
 
-  <title>事务中主键冲突造成的死锁分析 | meichao'notes</title>
+  <title>查询正在执行的事务和相关锁信息 | meichao'notes</title>
   
 
 
@@ -337,7 +335,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/事务中主键冲突造成的死锁分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/11/查询正在执行的事务和相关锁信息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="梅超">
@@ -354,7 +352,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">事务中主键冲突造成的死锁分析
+          <h2 class="post-title" itemprop="name headline">查询正在执行的事务和相关锁信息
 
               
             
@@ -380,7 +378,7 @@
                 
               
 
-              <time title="创建时间：2018-11-12 11:00:01" itemprop="dateCreated datePublished" datetime="2018-11-12T11:00:01+08:00">2018-11-12</time>
+              <time title="创建时间：2018-06-11 11:09:36" itemprop="dateCreated datePublished" datetime="2018-06-11T11:09:36+08:00">2018-06-11</time>
             
 
             
@@ -397,7 +395,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-13 15:27:39" itemprop="dateModified" datetime="2019-04-13T15:27:39+08:00">2019-04-13</time>
+                <time title="修改时间：2019-04-13 17:13:03" itemprop="dateModified" datetime="2019-04-13T17:13:03+08:00">2019-04-13</time>
               
             
           </span>
@@ -414,7 +412,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/经验总结/" itemprop="url" rel="index"><span itemprop="name">经验总结</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -449,54 +447,16 @@
       
 
       
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>线上业务场景：<br>一个账务系统，存在本地账户的概念，涉及到的业务有：用户充值余额，系统返现余额，用户提现等，<br>流程如下图：</p>
-<p><img src="http://ww1.sinaimg.cn/large/0076eWDSly1g1yive942oj31ky0jogpm.jpg" alt><br><a id="more"></a></p>
-<h3 id="死锁分析"><a href="#死锁分析" class="headerlink" title="死锁分析"></a>死锁分析</h3><p>事务隔离级别:<code>REPEATABLE READ</code><br>模拟如下</p>
-<table>
-<thead>
-<tr>
-<th>事务1</th>
-<th>事务2</th>
-<th>事务3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CREATE TABLE <code>test</code> (<br><code>id</code> int(10) unsigned NOT NULL DEFAULT ‘0’,<br><code>age</code> int(10) NOT NULL DEFAULT ‘1’,<br>PRIMARY KEY (<code>id</code>)<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>INSERT INTO test (‘id’,’age’) VALUES (9,29);</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>INSERT INTO test (‘id’,’age’) VALUES (9,29); <em>–阻塞</em></td>
-<td>update test set age = 18 where id = 9;<em>–阻塞</em></td>
-</tr>
-<tr>
-<td>commit;</td>
-<td>ERROR 1062 (23000): Duplicate entry ‘9’ for key ‘PRIMARY’</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>update test set age = 18 where id = 9;</td>
-<td>ERROR 1213 (40001): Deadlock found when trying to get lock; try restarting transaction</td>
-</tr>
-</tbody>
-</table>
-<p>死锁日志：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engine innodb status \G;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">LATEST DETECTED DEADLOCK</span><br><span class="line">------------------------</span><br><span class="line">2019-04-11 14:00:10 0x70001011f000</span><br><span class="line">*** (1) TRANSACTION:</span><br><span class="line">TRANSACTION 60223, ACTIVE 17 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">LOCK WAIT 2 lock struct(s), heap size 1136, 1 row lock(s)</span><br><span class="line">MySQL thread id 104, OS thread handle 123145572200448, query id 421 localhost root updating</span><br><span class="line">update test set age = 18 where id = 9</span><br><span class="line">*** (1) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60223 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** (2) TRANSACTION:</span><br><span class="line">TRANSACTION 60222, ACTIVE 35 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">3 lock struct(s), heap size 1136, 2 row lock(s)</span><br><span class="line">MySQL thread id 100, OS thread handle 123145571921920, query id 423 localhost root updating</span><br><span class="line">update test set age = 18 where id = 9</span><br><span class="line">*** (2) HOLDS THE LOCK(S):</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60222 lock mode S</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** (2) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 182 page no 3 n bits 80 index PRIMARY of table `mydb`.`test` trx id 60222 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 9 PHYSICAL RECORD: n_fields 4; compact format; info bits 0</span><br><span class="line"> 0: len 4; hex 00000009; asc     ;;</span><br><span class="line"> 1: len 6; hex 00000000eb39; asc      9;;</span><br><span class="line"> 2: len 7; hex ad000001210110; asc     !  ;;</span><br><span class="line"> 3: len 4; hex 8000001d; asc     ;;</span><br><span class="line"></span><br><span class="line">*** WE ROLL BACK TRANSACTION (1)</span><br><span class="line">------------</span><br><span class="line">TRANSACTIONS</span><br><span class="line">------------</span><br><span class="line">Trx id counter 60225</span><br></pre></td></tr></table></figure>
-<p>由此可以看出，事务2持有S锁(共享锁)，准备申请X锁，事务3准备申请X锁</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><em>在事务中当需要进行唯一性检查冲突时，需要加S锁</em>。T1与T2执行相同Insert，T1执行成功，T2阻塞，T3阻塞；T1提交后，T2触发检测唯一性检查冲突，对记录加上了S锁，T3申请X锁；此时T2执行update操作，T2申请X锁。此时触发死锁检测机制，发现死锁，T掉T3,T2正常执行。</p>
-<p>解决方案:</p>
-<p>缩小事务范围<br>1 将是否创建账户方法剔除事务外，只保存余额修改操作<br>2 使用spring注解，设置事务传播级别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(value = &quot;BLPTransactionManager&quot;, propagation = Propagation.NOT_SUPPORTED)</span><br></pre></td></tr></table></figure></p>
-<p>引申</p>
-<p>在MySQL中，行级锁并不是直接锁记录，而是锁索引。索引分为主键索引和非主键索引两种，如果一条sql语句操作了主键索引，MySQL就会锁定这条主键索引；如果一条语句操作了非主键索引，MySQL会先锁定该非主键索引，再锁定相关的主键索引。如果事务中存在：一 使用主键索引进行更新，二 使用非主键索引进行范围更新，并发情况下大几率会死锁</p>
+        <h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>表及执行引擎<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show create table test;</span><br><span class="line">| test  | CREATE TABLE `test` (</span><br><span class="line">  `id` int(10) unsigned NOT NULL DEFAULT &apos;0&apos;,</span><br><span class="line">  `age` int(10) NOT NULL DEFAULT &apos;1&apos;,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 |</span><br></pre></td></tr></table></figure></p>
+<p>隔离级别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@tx_isolation;</span><br><span class="line">+-----------------+</span><br><span class="line">| @@tx_isolation  |</span><br><span class="line">+-----------------+</span><br><span class="line">| REPEATABLE-READ |</span><br><span class="line">+-----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from test;</span><br><span class="line">+----+-----+</span><br><span class="line">| id | age |</span><br><span class="line">+----+-----+</span><br><span class="line">|  9 |  18 |</span><br><span class="line">| 11 |  18 |</span><br><span class="line">| 13 |  18 |</span><br><span class="line">| 15 |   6 |</span><br><span class="line">| 19 |   3 |</span><br><span class="line">+----+-----+</span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<h3 id="执行语句"><a href="#执行语句" class="headerlink" title="执行语句"></a>执行语句</h3><p>session1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test where id &gt; 13 for update;</span><br><span class="line">+----+-----+</span><br><span class="line">| id | age |</span><br><span class="line">+----+-----+</span><br><span class="line">| 15 |   6 |</span><br><span class="line">| 19 |   3 |</span><br><span class="line">+----+-----+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>session2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; INSERT INTO `mydb`.`test` (`id`,`age`) VALUES (18,8);</span><br><span class="line">--阻塞</span><br></pre></td></tr></table></figure></p>
+<p>查看锁信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCKS;</span><br><span class="line">+----------------+-------------+-----------+-----------+---------------+------------+------------+-----------+----------+-----------+</span><br><span class="line">| lock_id        | lock_trx_id | lock_mode | lock_type | lock_table    | lock_index | lock_space | lock_page | lock_rec | lock_data |</span><br><span class="line">+----------------+-------------+-----------+-----------+---------------+------------+------------+-----------+----------+-----------+</span><br><span class="line">| 60258:182:3:12 | 60258       | X,GAP     | RECORD    | `mydb`.`test` | PRIMARY    |        182 |         3 |       12 | 19        |</span><br><span class="line">| 60257:182:3:12 | 60257       | X         | RECORD    | `mydb`.`test` | PRIMARY    |        182 |         3 |       12 | 19        |</span><br><span class="line">+----------------+-------------+-----------+-----------+---------------+------------+------------+-----------+----------+-----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>查看事务信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from information_schema.innodb_trx \G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">                    trx_id: 60258</span><br><span class="line">                 trx_state: LOCK WAIT</span><br><span class="line">               trx_started: 2019-04-12 11:18:30</span><br><span class="line">     trx_requested_lock_id: 60258:182:3:12</span><br><span class="line">          trx_wait_started: 2019-04-12 11:20:15</span><br><span class="line">                trx_weight: 2</span><br><span class="line">       trx_mysql_thread_id: 100</span><br><span class="line">                 trx_query: INSERT INTO `mydb`.`test` (`id`,`age`) VALUES (18,8)</span><br><span class="line">       trx_operation_state: inserting</span><br><span class="line">         trx_tables_in_use: 1</span><br><span class="line">         trx_tables_locked: 1</span><br><span class="line">          trx_lock_structs: 2</span><br><span class="line">     trx_lock_memory_bytes: 1136</span><br><span class="line">           trx_rows_locked: 2</span><br><span class="line">         trx_rows_modified: 0</span><br><span class="line">   trx_concurrency_tickets: 0</span><br><span class="line">       trx_isolation_level: REPEATABLE READ</span><br><span class="line">         trx_unique_checks: 1</span><br><span class="line">    trx_foreign_key_checks: 1</span><br><span class="line">trx_last_foreign_key_error: NULL</span><br><span class="line"> trx_adaptive_hash_latched: 0</span><br><span class="line"> trx_adaptive_hash_timeout: 0</span><br><span class="line">          trx_is_read_only: 0</span><br><span class="line">trx_autocommit_non_locking: 0</span><br><span class="line">*************************** 2. row ***************************</span><br><span class="line">                    trx_id: 60257</span><br><span class="line">                 trx_state: RUNNING</span><br><span class="line">               trx_started: 2019-04-12 11:17:49</span><br><span class="line">     trx_requested_lock_id: NULL</span><br><span class="line">          trx_wait_started: NULL</span><br><span class="line">                trx_weight: 2</span><br><span class="line">       trx_mysql_thread_id: 94</span><br><span class="line">                 trx_query: NULL</span><br><span class="line">       trx_operation_state: NULL</span><br><span class="line">         trx_tables_in_use: 0</span><br><span class="line">         trx_tables_locked: 1</span><br><span class="line">          trx_lock_structs: 2</span><br><span class="line">     trx_lock_memory_bytes: 1136</span><br><span class="line">           trx_rows_locked: 3</span><br><span class="line">         trx_rows_modified: 0</span><br><span class="line">   trx_concurrency_tickets: 0</span><br><span class="line">       trx_isolation_level: REPEATABLE READ</span><br><span class="line">         trx_unique_checks: 1</span><br><span class="line">    trx_foreign_key_checks: 1</span><br><span class="line">trx_last_foreign_key_error: NULL</span><br><span class="line"> trx_adaptive_hash_latched: 0</span><br><span class="line"> trx_adaptive_hash_timeout: 0</span><br><span class="line">          trx_is_read_only: 0</span><br><span class="line">trx_autocommit_non_locking: 0</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -522,8 +482,6 @@
           
             <a href="/tags/mysql/" rel="tag"># mysql</a>
           
-            <a href="/tags/线上问题案例/" rel="tag"># 线上问题案例</a>
-          
         </div>
       
 
@@ -535,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/11/谈谈事务的隔离级别与锁/" rel="next" title="谈谈事务的隔离级别与锁">
-                <i class="fa fa-chevron-left"></i> 谈谈事务的隔离级别与锁
+              <a href="/2018/04/13/redis-SortedSet-多字段排序设计/" rel="next" title="Redis SortedSet 多字段排序设计">
+                <i class="fa fa-chevron-left"></i> Redis SortedSet 多字段排序设计
               </a>
             
           </div>
@@ -545,8 +503,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/31/mysql-binlog的3种复制形式及优缺点/" rel="prev" title="mysql binlog的3种复制形式及优缺点">
-                mysql binlog的3种复制形式及优缺点 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/10/11/谈谈事务的隔离级别与锁/" rel="prev" title="谈谈事务的隔离级别与锁">
+                谈谈事务的隔离级别与锁 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -565,7 +523,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2018/11/12/事务中主键冲突造成的死锁分析/" title="事务中主键冲突造成的死锁分析">2018/11/12/事务中主键冲突造成的死锁分析/</a>
+          <a href="/2018/06/11/查询正在执行的事务和相关锁信息/" title="查询正在执行的事务和相关锁信息">2018/06/11/查询正在执行的事务和相关锁信息/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -723,7 +681,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁分析"><span class="nav-number">2.</span> <span class="nav-text">死锁分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行语句"><span class="nav-number">2.</span> <span class="nav-text">执行语句</span></a></li></ol></div>
             
 
           </div>

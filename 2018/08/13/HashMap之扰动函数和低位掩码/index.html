@@ -105,7 +105,7 @@
 <meta property="og:description" content="我们都知道，hashmap在实现的时候,为了寻找在数组上的位置，主要做了两件事12int hash = hash(key);int i = indexFor(hash, table.length); 这两个方法详解如下JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图1234static final int hash(Object key)&amp;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/0076eWDSly1g21bd9i6x8j30ga09cq37.jpg">
-<meta property="og:updated_time" content="2019-04-13T13:14:56.414Z">
+<meta property="og:updated_time" content="2019-04-14T04:30:37.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap之扰动函数和低位掩码">
 <meta name="twitter:description" content="我们都知道，hashmap在实现的时候,为了寻找在数组上的位置，主要做了两件事12int hash = hash(key);int i = indexFor(hash, table.length); 这两个方法详解如下JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图1234static final int hash(Object key)&amp;">
@@ -397,7 +397,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-13 21:14:56" itemprop="dateModified" datetime="2019-04-13T21:14:56+08:00">2019-04-13</time>
+                <time title="修改时间：2019-04-14 12:30:37" itemprop="dateModified" datetime="2019-04-14T12:30:37+08:00">2019-04-14</time>
               
             
           </span>
@@ -450,7 +450,7 @@
 
       
         <p>我们都知道，hashmap在实现的时候,为了寻找在数组上的位置，主要做了两件事<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int hash = hash(key);</span><br><span class="line">int i = indexFor(hash, table.length);</span><br></pre></td></tr></table></figure></p>
-<p>这两个方法详解如下<br>JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static final int hash(Object key)&#123;</span><br><span class="line">         int h;</span><br><span class="line">         return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这两个方法详解如下<br>JDK8对扰动函数的修改，只进行了一次移位（右移16bit），再和key.hashCode()做异或，如图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static final int hash(Object key)&#123;</span><br><span class="line">    int h;</span><br><span class="line">	return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>这个散列值是不能直接拿来用的。用之前还要先做对数组的长度取模运算，得到的余数才能用来访问数组下标。源码中模运算是在这个indexFor( )函数里完成的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static int indexFor(int h, int length)&#123;</span><br><span class="line">     return h &amp; (length - 1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>其实，它就是取模。Java之所有使用位运算(&amp;)与来代替取模运算(%)，最主要的考虑就是效率。位运算(&amp;)效率要比代替取模运算(%)高很多，主要原因是位运算直接对内存数据进行操作，不需要转成十进制，因此处理速度非常快。</p>
@@ -496,8 +496,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/11/查询正在执行的事务和相关锁信息/" rel="next" title="查询正在执行的事务和相关锁信息">
-                <i class="fa fa-chevron-left"></i> 查询正在执行的事务和相关锁信息
+              <a href="/2018/08/10/hash及hash碰撞/" rel="next" title="hash及hash碰撞">
+                <i class="fa fa-chevron-left"></i> hash及hash碰撞
               </a>
             
           </div>
@@ -587,7 +587,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -612,7 +612,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -635,7 +637,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>

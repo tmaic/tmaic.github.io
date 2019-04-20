@@ -1858,6 +1858,251 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/20/zookeeper介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="梅超">
+      <meta itemprop="description" content="Xman">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="meichao'notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/20/zookeeper介绍/" class="post-title-link" itemprop="url">zookeeper介绍</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-20 18:32:07" itemprop="dateCreated datePublished" datetime="2018-04-20T18:32:07+08:00">2018-04-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-20 18:50:16" itemprop="dateModified" datetime="2019-04-20T18:50:16+08:00">2019-04-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/中间件/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="zookeeper简介"><a href="#zookeeper简介" class="headerlink" title="zookeeper简介"></a>zookeeper简介</h3><p>Zookeeper是一种分布式协调服务，可以在分布式系统中共享配置，协调锁资源，提供命名服务等。为读多写少的场景所设计，zk的节点适用于存储少量的状态和配置信息。</p>
+<p>对ZK的常见操作</p>
+<ul>
+<li>create：创建节点</li>
+<li>delete：删除节点</li>
+<li>exists: 判断一个节点的数据</li>
+<li>setdata: 设置一个节点的数据</li>
+<li>getChildren：获取节点下的所有子节点</li>
+</ul>
+<p>这其中，exists，getData，getChildren属于读操作，在请求读操作时，可以选择是否设置watch(监听机制)</p>
+<!--mores-->
+<h3 id="zookeeper中的重要概念"><a href="#zookeeper中的重要概念" class="headerlink" title="zookeeper中的重要概念"></a>zookeeper中的重要概念</h3><ul>
+<li>session：客户端会话，客户端与zk服务器建立TCP长连接，作用：心跳检测，发送请求，接收watcher事件</li>
+<li>znode：zookeeper的文件系统采用树形层次化的目录，每个目录在zookeeper中叫做一个znode，znode可以包含数据和子znode（临时节点不能有子znode）。</li>
+<li>watch机制：watch机制可以理解为注册在特定znode的触发器，当该znode发生改变时，请求watch的客户端会受到异步通知。<br>我们在实现分布式锁的时候，正式通过watch机制，来通知正在等待的session相关锁释放的信息。</li>
+</ul>
+<h3 id="Paxos算法"><a href="#Paxos算法" class="headerlink" title="Paxos算法"></a>Paxos算法</h3><p>Paxos算法是一种基于消息传递的一致性算法，主要为了解决，在分布式系统中如何就某一个决议达成一致的问题。</p>
+<p>拜占庭将军问题，主要数说明的含义是，在存在消息丢失的不可靠信道上试图通过消息传递的方式达到一致性是不可能的。Paxos算法的前提是不存在拜占庭将军问题，即信道是安全，可靠不可篡改的。</p>
+<p>分布式系统各个节点两种通讯方式：共享内存，消息传递。Paxos是基于消息传递。</p>
+<p>Paxos算法的作用就是在可能发生这些异常情况的分布式系统中，快速且正确地在集群内部对某个数据的值达成一致。</p>
+<h4 id="三种角色"><a href="#三种角色" class="headerlink" title="三种角色"></a>三种角色</h4><ul>
+<li>Proposer：提案的提议者</li>
+<li>Acceptor：提案的表决者，只有半数以上的Acceptor接受了提案，那么该提案者被认为被“选定”</li>
+<li>Learner：提案学习者。当提案被选定是，其要执行提案</li>
+</ul>
+<h4 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h4><p>两个阶段：准备阶段prepare与接收阶段accept</p>
+<p>A - prepare阶段：</p>
+<ul>
+<li>提议者准备提交一个编号为N的提议，于是其首先向所有表决者Acceptor发送N个prepare请求。用于试探集群是否支持该编号的的提议。</li>
+<li>每个表决者在accept某提案后，会将改提案的标号N记录在本地。每个表决者只会accept比自己本地N大的提议。本地编号和提议编号进行比对，小于则不接受，大于则将本地标号及所有着信息返回</li>
+</ul>
+<p>B - accept阶段</p>
+<ul>
+<li>若提议则收到了超过半数的表决者(Accepter)的反馈，那么该提议者就会正式提案给所有表决者</li>
+<li>表决者收到正式提案后，会再次拿出自己本地的最大编号N及记录的prepare的最大编号。都进行比较，若提议编号大于等于这两个编号，表决者accept，若小于则拒绝，拒绝后再次进入prepare阶段</li>
+<li>若提议者没有接收到超过半数的表决者的反馈，重新进入prepare。若超过，则其会向外广播两类信息<br>1.向曾accept的提案的表决者发送”可执行数据同步信号“，让他们执行其曾接收到的提案<br>2.向未向其发送accept反馈的表决者发送”提案+可执行数据同步信号“</li>
+</ul>
+<h3 id="Paxos算法的活锁问题"><a href="#Paxos算法的活锁问题" class="headerlink" title="Paxos算法的活锁问题"></a>Paxos算法的活锁问题</h3><p>Paxos算法存在<code>活锁</code>问题：</p>
+<blockquote>
+<p>每个提案者均可提交提案，但必须获取到一个全局的唯一编号N，将该N值赋予提案，N值得获取是竞争资源。若一个提案一直不停的申请资源，但每次都没有分配给到它，此时该进程就处于活锁状态</p>
+</blockquote>
+<p>Fast Paxos算法对Paxos算法进行了改进，只容许一个进程处理写请求，即只容许一个进程提交提案</p>
+<p>死锁：进程处于阻塞状态<br>活锁：进程处于运行或就绪状态</p>
+<h3 id="ZAB协议"><a href="#ZAB协议" class="headerlink" title="ZAB协议"></a>ZAB协议</h3><p>ZAB协议是Fast Paxos算法的一种实现算法。zookeeper Atomic Broadcast,zk原子消息广播协议，在zk中主要依赖ZAB协议来实现分布式数据的一致性</p>
+<blockquote>
+<p>zookeeper使用单一的主进程来接受并处理客户端的所有事物请求，当服务器数据状态发生变更后，机器采用ZAB原子广播协议，以事务提案Propsoal的形式广播到所有的副本进程上。</p>
+</blockquote>
+<h3 id="三类角色"><a href="#三类角色" class="headerlink" title="三类角色"></a>三类角色</h3><p>为避免zk的单点问题，zk已集群形式出现，zk集群中的角色主要有以下三类：</p>
+<ul>
+<li>leader：zk写请求的唯一处理者，并负责进行投票的发起和决议，更新系统状态。leader并不是其在接受到写请求后立马修改其中数据，而是首先请求提议，在大多说server同意时才会修改。</li>
+<li>follower: 处理读请求，并向客户端返回结果。在选主过程参与投票</li>
+<li>Observer: 无选举权的和被选举权的follower</li>
+</ul>
+<h3 id="如何保证数据一致性"><a href="#如何保证数据一致性" class="headerlink" title="如何保证数据一致性"></a>如何保证数据一致性</h3><p>在zk中三个重要的数据：zxid，epoch与xid<br>zxid（64位long） = 32高位(epoch)+32低位(xid)<br>epoch为每次新选举一个leader就会更新epoch<br>xid每次事务写操作生成的id，是一个依次递增的流水号</p>
+<p>ZAB的<code>过半</code>设计原则<br>Zab协议有两种模式， 崩溃恢复（选主+数据同步）和消息广播（事务操作）。任何时候都需要保证只有一个主进程负责进行事务操作，而如果主进程崩溃了，就需要迅速选举出一个新的主进程。主进程的选举机制与事务操作机制是紧密相关的</p>
+<ul>
+<li><p>如何保证commit的数据不丢失？事务已经提交，leader挂掉，部分follower还未来及此次commit数据写入，此时重新选举，注意此处选举是在xid最大的中的server进行，也即这些server针对最新的commit已经写入，选举成功后，进过恢复模式保证所有server都执行那些已经被部分server执行过的事务。</p>
+</li>
+<li><p>如何保证未commit的数据不再现？事务未提交，leader挂掉，其他follower没有该次commit数据，当挂掉的server重新连上，成为follwer后，由于此时zxid小于其他server的zxid，所以提交请求被拒绝。</p>
+</li>
+</ul>
+<h3 id="CAP原则"><a href="#CAP原则" class="headerlink" title="CAP原则"></a>CAP原则</h3><ul>
+<li>consistency(一致性)，分布式系统中，在同一时刻是否可以保证所有server具有相同的数据备份</li>
+<li>Availability(可用性)：在集群中部分节点发生故障后，是否影响对客户端读写请求的响应</li>
+<li>Partition tolerance(分区容错性)，分布式系统，必须要具有对发生不一致性和发生不用性的包容性</li>
+</ul>
+<p>CAP原则中分区容错性必须保证。所以对一个分布式系统来说，只能满足两项</p>
+<p>ZK遵循的是CP选择，即保证了一致性，但牺牲了可用性。<br>当Leader宕机后，zk集群会进行新的leader选举，选举期间不接受客户端的读写操作</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+
+            <div>    
+       
+       
+      </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/13/redis-SortedSet-多字段排序设计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2032,196 +2277,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/13/数据结构之二链表/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="梅超">
-      <meta itemprop="description" content="Xman">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="meichao'notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/13/数据结构之二链表/" class="post-title-link" itemprop="url">数据结构之二链表</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-13 13:56:05" itemprop="dateCreated datePublished" datetime="2018-03-13T13:56:05+08:00">2018-03-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-14 14:22:54" itemprop="dateModified" datetime="2019-04-14T14:22:54+08:00">2019-04-14</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-什么是链表"><a href="#1-什么是链表" class="headerlink" title="1 什么是链表"></a>1 什么是链表</h3><p>1.和数组一样，链表也是一种线性表。<br>2.链表的内存结构是不连续的内存空间，是将一组零散的内存块串联起来，进行数据存储的数据结构<br>3.链表中的每一个内存块被称为节点Node。节点除了存储数据外，还需记录链上下一个节点的地址，即后继指针next。</p>
-<h3 id="2-链表的特点"><a href="#2-链表的特点" class="headerlink" title="2 链表的特点"></a>2 链表的特点</h3><p>1.插入，删除效率高O(1)，只需更改指针指向即可），随机访问效率低O(n)级别（需要从链头至链尾进行遍历）。<br>2.和数组相比，内存空间消耗更大，因为每个存储数据的节点都需要额外的空间存储后继指针。</p>
-<h3 id="3常用链表：单链表、循环链表和双向链表"><a href="#3常用链表：单链表、循环链表和双向链表" class="headerlink" title="3常用链表：单链表、循环链表和双向链表"></a>3常用链表：单链表、循环链表和双向链表</h3><h4 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h4><p>1）每个节点只包含一个指针，即后继指针。<br>2）单链表有两个特殊的节点，即首节点和尾节点。为什么特殊？用首节点地址表示整条链表，尾节点的后继指针指向空地址null。<br>3）性能特点：插入和删除节点的时间复杂度为O（1），查找的时间复杂度为O(n)。</p>
-<h4 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h4><p>1）除了尾节点的后继指针指向首节点的地址外均与单链表一致。<br>2）适用于存储有循环特点的数据，比如约瑟夫问题。</p>
-<h4 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h4><p>1）节点除了存储数据外，还有两个指针分别指向前一个节点地址（前驱指针prev）和下一个节点地址（后继指针next）。<br>2）首节点的前驱指针prev和尾节点的后继指针均指向空地址。</p>
-<p>3）性能特点：<br>和单链表相比，存储相同的数据，需要消耗更多的存储空间。<br>插入、删除操作比单链表效率更高O(1)级别。以删除操作为例，删除操作分为2种情况：给定数据值删除对应节点和给定节点地址删除节点。对于前一种情况，单链表和双向链表都需要从头到尾进行遍历从而找到对应节点进行删除，时间复杂度为O(n)。对于第二种情况，要进行删除操作必须找到前驱节点，单链表需要从头到尾进行遍历直到p-&gt;next = q，时间复杂度为O(n)，而双向链表可以直接找到前驱节点，时间复杂度为O(1)。<br>对于一个有序链表，双向链表的按值查询效率要比单链表高一些。因为我们可以记录上次查找的位置p，每一次查询时，根据要查找的值与p的大小关系，决定是往前还是往后查找，所以平均只需要查找一半的数据。</p>
-<h3 id="4-选择数组还是链表？"><a href="#4-选择数组还是链表？" class="headerlink" title="4 选择数组还是链表？"></a>4 选择数组还是链表？</h3><p>1.插入、删除和随机访问的时间复杂度<br>数组：插入、删除的时间复杂度是O(n)，随机访问的时间复杂度是O(1)。<br>链表：插入、删除的时间复杂度是O(1)，随机访问的时间复杂端是O(n)。<br>2.数组缺点<br>1）若申请内存空间很大，比如100M，但若内存空间没有100M的连续空间时，则会申请失败，尽管内存可用空间超过100M。<br>2）大小固定，若存储空间不足，需进行扩容，一旦扩容就要进行数据复制，而这时非常费时的。<br>3.链表缺点<br>1）内存空间消耗更大，因为需要额外的空间存储指针信息。<br>2）对链表进行频繁的插入和删除操作，会导致频繁的内存申请和释放，容易造成内存碎片，如果是Java语言，还可能会造成频繁的GC（自动垃圾回收器）操作。<br>4.如何选择？<br>数组简单易用，在实现上使用连续的内存空间，可以借助CPU的缓冲机制预读数组中的数据，所以访问效率更高，而链表在内存中并不是连续存储，所以对CPU缓存不友好，没办法预读。<br>如果代码对内存的使用非常苛刻，那数组就更适合。</p>
-<h3 id="5-链表解决LRU问题"><a href="#5-链表解决LRU问题" class="headerlink" title="5 链表解决LRU问题"></a>5 链表解决LRU问题</h3><p>思路：维护一个有序单链表，新入的数据，和最新访问数据放在表头</p>
-<h3 id="通过链表判断字符串是否是回文字符串"><a href="#通过链表判断字符串是否是回文字符串" class="headerlink" title="通过链表判断字符串是否是回文字符串"></a>通过链表判断字符串是否是回文字符串</h3><p>1）前提：字符串以单个字符的形式存储在单链表中。<br>2）遍历链表，判断字符个数是否为奇数，若为偶数，则不是。<br>3）将链表中的字符倒序存储一份在另一个链表中。<br>4）同步遍历2个链表，比较对应的字符是否相等，若相等，则是回文字符串，否则，不是。</p>
-<p>时间复杂度O(n)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for singly-linked list.</span><br><span class="line"> * public class ListNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     ListNode next;</span><br><span class="line"> *     ListNode(int x) &#123; val = x; &#125;</span><br><span class="line"> * &#125;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">  public boolean isPalindrome(ListNode head) &#123;</span><br><span class="line">    if (head == null || head.next == null) &#123;</span><br><span class="line">      return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ListNode prev = null;</span><br><span class="line">    ListNode slow = head;</span><br><span class="line">    ListNode fast = head;</span><br><span class="line"></span><br><span class="line">    while (fast != null &amp;&amp; fast.next != null) &#123;</span><br><span class="line">      fast = fast.next.next;</span><br><span class="line">      ListNode next = slow.next;</span><br><span class="line">      slow.next = prev;</span><br><span class="line">      prev = slow;</span><br><span class="line">      slow = next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (fast != null) &#123;</span><br><span class="line">      slow = slow.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    while (slow != null) &#123;</span><br><span class="line">      if (slow.val != prev.val) &#123;</span><br><span class="line">        return false;</span><br><span class="line">      &#125;</span><br><span class="line">      slow = slow.next;</span><br><span class="line">      prev = prev.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-
-            <div>    
-       
-       
-      </div>
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2261,7 +2323,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2288,7 +2350,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2313,7 +2377,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>

@@ -1673,6 +1673,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/21/秒杀场景下减库存的几种方式和如何避免超卖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="梅超">
+      <meta itemprop="description" content="Xman">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="meichao'notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/21/秒杀场景下减库存的几种方式和如何避免超卖/" class="post-title-link" itemprop="url">减库存的几种方式和秒杀场景下如何避免超卖</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-21 10:23:54" itemprop="dateCreated datePublished" datetime="2018-07-21T10:23:54+08:00">2018-07-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-21 12:32:56" itemprop="dateModified" datetime="2019-04-21T12:32:56+08:00">2019-04-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/经验总结/" itemprop="url" rel="index"><span itemprop="name">经验总结</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="什么时候减库存"><a href="#什么时候减库存" class="headerlink" title="什么时候减库存"></a>什么时候减库存</h3><p>购物流程我们一般分为两个步骤：下单和付款，下面我们分析下减库存的场景：</p>
+<ul>
+<li>下单即减库存：方式简单也精确，通过数据库事务机制控制商品库存，这样一定不会超卖。但存在下单后有人不付款的场景</li>
+<li>付款减库存：此种情况，在并发情况下，存在下单付不了款的情况。</li>
+<li>预扣库存：下单减库存，库存为其保留一定的时间（如半小时），超过这个时间库存自动释放，释放后其他买家继续购买</li>
+</ul>
+<h3 id="减库存可能存在的问题"><a href="#减库存可能存在的问题" class="headerlink" title="减库存可能存在的问题"></a>减库存可能存在的问题</h3><ul>
+<li>下单减库存：恶意下单问题，只下单不支付</li>
+<li>付款减库存：上文已说，在秒杀情况下会出现大量无效订单。</li>
+<li>预扣库存：同样存在恶意下单</li>
+</ul>
+<h3 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h3><p>针对上述情况，解决办法还是要结合安全和反作弊措施来制止<br>例如，给经常下单不付款的用户打标示，给活动商品设置最大购买件数，对重复下单不付款的次数进行限制</p>
+<h3 id="秒杀场景如何扣库存"><a href="#秒杀场景如何扣库存" class="headerlink" title="秒杀场景如何扣库存"></a>秒杀场景如何扣库存</h3><p>由于参加秒杀的商品，一般都是“抢到就是赚到”，所以成功下单后却不付款的情况比较少，再加上卖家对秒杀商品的库存有严格限制，所以秒杀商品采用“下单减库存”更加合理。另外，理论上由于“下单减库存”比“预扣库存”以及涉及第三方支付的“付款减库存”在逻辑上更为简单，所以性能上更占优势。</p>
+<p>”下单减库存“在数据一致性上，主要是保证大并发请求是库存不能减为负数：一般的解决方案：</p>
+<ul>
+<li>通过事务判断，保证减后库存不能为负数，否则回滚。</li>
+<li>通过数据库乐观锁：减后库存值大于零</li>
+<li><p>通过case when</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE item SET inventory = CASE WHEN inventory &gt;= xxx THEN inventory-xxx ELSE inventory END</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在缓存中进行 1.本地缓存，将库存均分到多台机器缓存。2.持久化的分布式缓存redis</p>
+</li>
+<li><p>库存分段，减少锁竞争压力</p>
+</li>
+</ul>
+<h3 id="秒杀的兜底方案"><a href="#秒杀的兜底方案" class="headerlink" title="秒杀的兜底方案"></a>秒杀的兜底方案</h3><ul>
+<li>降级：当系统的容量达到一定程度，限制或关闭系统的某些核心功能，他是一个有目的和有计划的执行过程。如果我们将其系统化，就可以通过预案系统和开关系统进行降级<br>例如在双 11 零点时，如果优惠券系统扛不住，可能会临时降级商品详情的优惠信息展示，把有限的系统资源用在保障交易系统</li>
+<li>限流：当系统容量达到瓶颈，通过限制一部分流量来保护系统，在限流的实现手段上来讲，基于 QPS 和线程数的限流应用最多，最大 QPS 很容易通过压测提前获取，例如我们的系统最高支持1w QPS 时，可以设置 8000 来进行限流保护。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+
+            <div>    
+       
+       
+      </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/11/查询正在执行的事务和相关锁信息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1920,7 +2126,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-20 18:50:16" itemprop="dateModified" datetime="2019-04-20T18:50:16+08:00">2019-04-20</time>
+                <time title="修改时间：2019-04-21 12:30:38" itemprop="dateModified" datetime="2019-04-21T12:30:38+08:00">2019-04-21</time>
               
             
           </span>
@@ -2042,200 +2248,12 @@
 </ul>
 <p>CAP原则中分区容错性必须保证。所以对一个分布式系统来说，只能满足两项</p>
 <p>ZK遵循的是CP选择，即保证了一致性，但牺牲了可用性。<br>当Leader宕机后，zk集群会进行新的leader选举，选举期间不接受客户端的读写操作</p>
+<p><a href="https://zhuanlan.zhihu.com/p/25594630" target="_blank" rel="noopener">参考:浅析Zookeeper的一致性原理</a></p>
 
           
         
       
     </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-
-            <div>    
-       
-       
-      </div>
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/13/redis-SortedSet-多字段排序设计/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="梅超">
-      <meta itemprop="description" content="Xman">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="meichao'notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/13/redis-SortedSet-多字段排序设计/" class="post-title-link" itemprop="url">Redis SortedSet 多字段排序设计</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-13 15:05:57" itemprop="dateCreated datePublished" datetime="2018-04-13T15:05:57+08:00">2018-04-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-13 17:36:25" itemprop="dateModified" datetime="2019-04-13T17:36:25+08:00">2019-04-13</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/经验总结/" itemprop="url" rel="index"><span itemprop="name">经验总结</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="业务背景"><a href="#业务背景" class="headerlink" title="业务背景"></a>业务背景</h3><div class="note warning">近期公司上线猜大盘的营销活动，其中有个排行榜功能，规则为按照三个字段综合排序(优先按照猜中次数排序，其次按照胜率排序，最后按照首次参与时间排序)：<br>- 猜中次数:<code>guessNum</code><br>- 胜率:<code>guessRate</code><br>- 首次参与时间:<code>fristTime</code><br></div>
-
-<h3 id="最初的实现"><a href="#最初的实现" class="headerlink" title="最初的实现"></a>最初的实现</h3><p>初期探讨的主要有两种实现方案：</p>
-<ul>
-<li>方案一：记录用户猜测记录，收盘后结算用户是否猜中，并记录用户本期的汇总数据，比如猜中几次，胜率等。排序使用<code>select/db/order by</code>进行排序</li>
-<li>方案二：与方案一的区别为，结算后不进行汇总落库，所有用户结算完成后再进行一次排序task，实现<code>Comparator</code>接口的<code>compare</code>方法进行排序,排序完成放入redis
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/04/13/redis-SortedSet-多字段排序设计/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </li></ul></div>
 
     
 
@@ -2323,7 +2341,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2379,7 +2397,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>

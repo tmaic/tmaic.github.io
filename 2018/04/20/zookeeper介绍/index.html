@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="meichao&#39;notes">
 <meta property="og:description" content="zookeeper简介Zookeeper是一种分布式协调服务，可以在分布式系统中共享配置，协调锁资源，提供命名服务等。为读多写少的场景所设计，zk的节点适用于存储少量的状态和配置信息。 对ZK的常见操作  create：创建节点 delete：删除节点 exists: 判断一个节点的数据 setdata: 设置一个节点的数据 getChildren：获取节点下的所有子节点  这其中，exists，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-21T04:30:38.569Z">
+<meta property="og:updated_time" content="2019-04-22T13:57:19.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper介绍">
 <meta name="twitter:description" content="zookeeper简介Zookeeper是一种分布式协调服务，可以在分布式系统中共享配置，协调锁资源，提供命名服务等。为读多写少的场景所设计，zk的节点适用于存储少量的状态和配置信息。 对ZK的常见操作  create：创建节点 delete：删除节点 exists: 判断一个节点的数据 setdata: 设置一个节点的数据 getChildren：获取节点下的所有子节点  这其中，exists，">
@@ -395,7 +395,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-21 12:30:38" itemprop="dateModified" datetime="2019-04-21T12:30:38+08:00">2019-04-21</time>
+                <time title="修改时间：2019-04-22 21:57:19" itemprop="dateModified" datetime="2019-04-22T21:57:19+08:00">2019-04-22</time>
               
             
           </span>
@@ -457,7 +457,7 @@
 <li>getChildren：获取节点下的所有子节点</li>
 </ul>
 <p>这其中，exists，getData，getChildren属于读操作，在请求读操作时，可以选择是否设置watch(监听机制)</p>
-<!--mores-->
+<a id="more"></a>
 <h3 id="zookeeper中的重要概念"><a href="#zookeeper中的重要概念" class="headerlink" title="zookeeper中的重要概念"></a>zookeeper中的重要概念</h3><ul>
 <li>session：客户端会话，客户端与zk服务器建立TCP长连接，作用：心跳检测，发送请求，接收watcher事件</li>
 <li>znode：zookeeper的文件系统采用树形层次化的目录，每个目录在zookeeper中叫做一个znode，znode可以包含数据和子znode（临时节点不能有子znode）。</li>
@@ -484,9 +484,15 @@
 <li>表决者收到正式提案后，会再次拿出自己本地的最大编号N及记录的prepare的最大编号。都进行比较，若提议编号大于等于这两个编号，表决者accept，若小于则拒绝，拒绝后再次进入prepare阶段</li>
 <li>若提议者没有接收到超过半数的表决者的反馈，重新进入prepare。若超过，则其会向外广播两类信息<br>1.向曾accept的提案的表决者发送”可执行数据同步信号“，让他们执行其曾接收到的提案<br>2.向未向其发送accept反馈的表决者发送”提案+可执行数据同步信号“</li>
 </ul>
+<p>规则总结：</p>
+<ul>
+<li>prepare阶段喜新厌旧</li>
+<li>commit阶段后者服从前者</li>
+<li>总体少数服从多数</li>
+</ul>
 <h3 id="Paxos算法的活锁问题"><a href="#Paxos算法的活锁问题" class="headerlink" title="Paxos算法的活锁问题"></a>Paxos算法的活锁问题</h3><p>Paxos算法存在<code>活锁</code>问题：</p>
 <blockquote>
-<p>每个提案者均可提交提案，但必须获取到一个全局的唯一编号N，将该N值赋予提案，N值得获取是竞争资源。若一个提案一直不停的申请资源，但每次都没有分配给到它，此时该进程就处于活锁状态</p>
+<p>即当有多个proposer交错提交时，有可能互相排斥导致没有一个proposer能提交成功，而Fase Paxos作了一些优化，通过选举产生一个leader，只有leader才能提交proposer，具体的可以看一下Fast Paxos算法。</p>
 </blockquote>
 <p>Fast Paxos算法对Paxos算法进行了改进，只容许一个进程处理写请求，即只容许一个进程提交提案</p>
 <p>死锁：进程处于阻塞状态<br>活锁：进程处于运行或就绪状态</p>
@@ -502,6 +508,7 @@
 </ul>
 <h3 id="如何保证数据一致性"><a href="#如何保证数据一致性" class="headerlink" title="如何保证数据一致性"></a>如何保证数据一致性</h3><p>在zk中三个重要的数据：zxid，epoch与xid<br>zxid（64位long） = 32高位(epoch)+32低位(xid)<br>epoch为每次新选举一个leader就会更新epoch<br>xid每次事务写操作生成的id，是一个依次递增的流水号</p>
 <p>ZAB的<code>过半</code>设计原则<br>Zab协议有两种模式， 崩溃恢复（选主+数据同步）和消息广播（事务操作）。任何时候都需要保证只有一个主进程负责进行事务操作，而如果主进程崩溃了，就需要迅速选举出一个新的主进程。主进程的选举机制与事务操作机制是紧密相关的</p>
+<p>ZAB协议保证了在Leader选举的过程中，已经被Commit的数据不会丢失，未被Commit的数据对客户端不可见。</p>
 <ul>
 <li><p>如何保证commit的数据不丢失？事务已经提交，leader挂掉，部分follower还未来及此次commit数据写入，此时重新选举，注意此处选举是在xid最大的中的server进行，也即这些server针对最新的commit已经写入，选举成功后，进过恢复模式保证所有server都执行那些已经被部分server执行过的事务。</p>
 </li>
@@ -562,8 +569,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/11/查询正在执行的事务和相关锁信息/" rel="prev" title="查询正在执行的事务和相关锁信息">
-                查询正在执行的事务和相关锁信息 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/23/2PC-vs-3PC-vs-TCC/" rel="prev" title="2PC vs 3PC vs TCC">
+                2PC vs 3PC vs TCC <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -652,7 +659,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -681,7 +688,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -710,7 +719,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>

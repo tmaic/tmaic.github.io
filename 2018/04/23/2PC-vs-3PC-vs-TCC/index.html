@@ -96,16 +96,18 @@
 
 
 
-  <meta name="description" content="Xman">
-<meta property="og:type" content="website">
-<meta property="og:title" content="meichao&#39;notes">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+  <meta name="description" content="针对分布式事务的 2PC vs 3PC两个角色：协调者与参与者 2pc：两阶段 - 分为申请事务提交阶段(accept)和确认事务提交阶段(commit)，协调者有超时机制流程：  协调者向所有参与者申请提交事务 参与者相应是否可执行，并写入undo日志，返回相应 如果都成功，确认提交；如果有一个失败或者相应超时，进行回滚">
+<meta name="keywords" content="分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2PC vs 3PC vs TCC">
+<meta property="og:url" content="http://yoursite.com/2018/04/23/2PC-vs-3PC-vs-TCC/index.html">
 <meta property="og:site_name" content="meichao&#39;notes">
-<meta property="og:description" content="Xman">
+<meta property="og:description" content="针对分布式事务的 2PC vs 3PC两个角色：协调者与参与者 2pc：两阶段 - 分为申请事务提交阶段(accept)和确认事务提交阶段(commit)，协调者有超时机制流程：  协调者向所有参与者申请提交事务 参与者相应是否可执行，并写入undo日志，返回相应 如果都成功，确认提交；如果有一个失败或者相应超时，进行回滚">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-23T16:17:09.394Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="meichao&#39;notes">
-<meta name="twitter:description" content="Xman">
+<meta name="twitter:title" content="2PC vs 3PC vs TCC">
+<meta name="twitter:description" content="针对分布式事务的 2PC vs 3PC两个角色：协调者与参与者 2pc：两阶段 - 分为申请事务提交阶段(accept)和确认事务提交阶段(commit)，协调者有超时机制流程：  协调者向所有参与者申请提交事务 参与者相应是否可执行，并写入undo日志，返回相应 如果都成功，确认提交；如果有一个失败或者相应超时，进行回滚">
 
 
 
@@ -113,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/archives/2018/">
+  <link rel="canonical" href="http://yoursite.com/2018/04/23/2PC-vs-3PC-vs-TCC/">
 
 
 
@@ -123,7 +125,7 @@
   };
 </script>
 
-  <title>归档 | meichao'notes</title>
+  <title>2PC vs 3PC vs TCC | meichao'notes</title>
   
 
 
@@ -171,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,7 +249,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -313,420 +315,249 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/23/2PC-vs-3PC-vs-TCC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="梅超">
+      <meta itemprop="description" content="Xman">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="meichao'notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h2 class="post-title" itemprop="name headline">2PC vs 3PC vs TCC
+
+              
+            
+          </h2>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-23 15:09:51" itemprop="dateCreated datePublished" datetime="2018-04-23T15:09:51+08:00">2018-04-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-24 00:17:09" itemprop="dateModified" datetime="2019-04-24T00:17:09+08:00">2019-04-24</time>
+              
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 14 篇日志。 继续努力。
-      </span>
-      
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h2 class="archive-year" id="archive-year-2018">2018</h2>
-          </div>
-        
-        
 
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/12/31/mysql-binlog的3种复制形式及优缺点/" itemprop="url">
+          
             
-              <span itemprop="name">mysql binlog的3种复制形式及优缺点</span>
             
-          </a>
-        
-      </h3>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-31T22:45:32+08:00" content="2018-12-31">
-          12-31
-        </time>
-      </div>
+          
+          
 
-    </header>
-  </article>
+          
 
+          
 
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/11/12/事务中主键冲突造成的死锁分析/" itemprop="url">
-            
-              <span itemprop="name">事务中主键冲突造成的死锁分析</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-12T11:00:01+08:00" content="2018-11-12">
-          11-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/10/11/谈谈事务的隔离级别与锁/" itemprop="url">
-            
-              <span itemprop="name">谈谈事务的隔离级别与锁</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-10-11T21:44:25+08:00" content="2018-10-11">
-          10-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>针对分布式事务的</p>
+<h2 id="2PC-vs-3PC"><a href="#2PC-vs-3PC" class="headerlink" title="2PC vs 3PC"></a>2PC vs 3PC</h2><p>两个角色：协调者与参与者</p>
+<p>2pc：两阶段 - 分为申请事务提交阶段(accept)和确认事务提交阶段(commit)，协调者有超时机制<br>流程：</p>
+<ul>
+<li>协调者向所有参与者申请提交事务</li>
+<li>参与者相应是否可执行，并写入undo日志，返回相应</li>
+<li>如果都成功，确认提交；如果有一个失败或者相应超时，进行回滚</li>
+</ul>
+<a id="more"></a>
+<p>3pc：三阶段 - 分为canCommit(accept),preCommit(prepare-commit),doCommit(commit),两个角色都有超时机制</p>
+<p>3PC把commit阶段分成两阶段，prepare-commit和commit，然后加上超时机制.因为通过prepare-commit阶段，3PC新的coordinator在commit阶段即使有participant挂掉也可以确定整个系统的状态</p>
+<p>超时判断：</p>
+<ul>
+<li>3pc 在协调者、参与者中都加入了超时判断机制，2pc只有协调者有。</li>
+<li>加入的超时机制在某种程度上解决了2pc的 单点、阻塞问题</li>
+</ul>
+<p>3PC 在 commit 之前增加了 preCommit 的过程，使得在参与者在收不到确认时，依然可以从容 commit 或者 rollback，避免资源锁定太久导致浪费</p>
+<h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><p>TCC是Try、Commit、Cancel的缩写，TCC在保证强一致性的同时，最大限度提高系统的可伸缩性与可用性。</p>
+<p>我们假设一个完整的业务包含一组子业务，Try操作完成所有的子业务检查，预留必要的业务资源，实现与其他事务的隔离；Confirm使用Try阶段预留的业务资源真正执行业务，而且Confirm操作满足幂等性，以遍支持重试；Cancel操作释放Try阶段预留的业务资源，同样也满足幂等性。“一次完整的交易由一系列微交易的Try 操作组成，如果所有的Try 操作都成功，最终由微交易框架来统一Confirm，否则统一Cancel，从而实现了类似经典两阶段提交协议（2PC）的强一致性。”</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/08/22/redis-介绍/" itemprop="url">
-            
-              <span itemprop="name">Redis 介绍</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-08-22T21:57:06+08:00" content="2018-08-22">
-          08-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/08/13/HashMap之扰动函数和低位掩码/" itemprop="url">
-            
-              <span itemprop="name">HashMap之扰动函数和低位掩码</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-08-13T20:38:22+08:00" content="2018-08-13">
-          08-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/08/10/hash及hash碰撞/" itemprop="url">
-            
-              <span itemprop="name">hash及hash碰撞</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-08-10T12:17:24+08:00" content="2018-08-10">
-          08-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/07/21/秒杀场景下减库存的几种方式和如何避免超卖/" itemprop="url">
-            
-              <span itemprop="name">减库存的几种方式和秒杀场景下如何避免超卖</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-07-21T10:23:54+08:00" content="2018-07-21">
-          07-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/06/11/查询正在执行的事务和相关锁信息/" itemprop="url">
-            
-              <span itemprop="name">查询正在执行的事务和相关锁信息</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-06-11T11:09:36+08:00" content="2018-06-11">
-          06-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/04/23/2PC-vs-3PC-vs-TCC/" itemprop="url">
-            
-              <span itemprop="name">2PC vs 3PC vs TCC</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-04-23T15:09:51+08:00" content="2018-04-23">
-          04-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-          <a class="post-title-link" href="/2018/04/20/zookeeper介绍/" itemprop="url">
-            
-              <span itemprop="name">zookeeper介绍</span>
-            
-          </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-04-20T18:32:07+08:00" content="2018-04-20">
-          04-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/20/zookeeper介绍/" rel="next" title="zookeeper介绍">
+                <i class="fa fa-chevron-left"></i> zookeeper介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/11/查询正在执行的事务和相关锁信息/" rel="prev" title="查询正在执行的事务和相关锁信息">
+                查询正在执行的事务和相关锁信息 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+
+            <div>    
+       
+       
+      <ul class="post-copyright">
+        <li class="post-copyright-author">
+            <strong>本文作者：</strong>梅超
+        </li>
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="/2018/04/23/2PC-vs-3PC-vs-TCC/" title="2PC vs 3PC vs TCC">2018/04/23/2PC-vs-3PC-vs-TCC/</a>
+        </li>
+        <li class="post-copyright-license">
+          <strong>版权： </strong>
+          本站文章均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议，请勿用于商业，转载注明出处！
+        </li>
+      </ul>
+      
+      </div>
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="extend next" rel="next" href="/archives/2018/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
+  </article>
 
 
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -746,8 +577,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -851,6 +691,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2PC-vs-3PC"><span class="nav-number">1.</span> <span class="nav-text">2PC vs 3PC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCC"><span class="nav-number">1.1.</span> <span class="nav-text">TCC</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -981,6 +838,10 @@
 
 
   
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
 
   
 
@@ -996,6 +857,8 @@
 
   
 
+
+  
 
 
   

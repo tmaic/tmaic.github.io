@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+<meta name="referrer" content="no-referrer">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="团队建设存在问题：  业务配合不规范：产品、运营、研发部门之间配合没有建立合理的工作流程，比如对于产品需求的 PRD 评审没有标准，对于运营需求没有量化指标，大家都是疲于奔命做需求，导致大家的积极性不够高。 跨团队协作混乱：跨部门之间的工作配合毫无规范可言，部门之间相互推诿，随便什么业务人员都会随时给研发人员下命令，长此以往，伤害了研发团队的积极性。">
+<meta name="keywords" content="技术人生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于团队">
+<meta property="og:url" content="http://yoursite.com/2019/01/27/关于团队/index.html">
+<meta property="og:site_name" content="meichao&#39;notes">
+<meta property="og:description" content="团队建设存在问题：  业务配合不规范：产品、运营、研发部门之间配合没有建立合理的工作流程，比如对于产品需求的 PRD 评审没有标准，对于运营需求没有量化指标，大家都是疲于奔命做需求，导致大家的积极性不够高。 跨团队协作混乱：跨部门之间的工作配合毫无规范可言，部门之间相互推诿，随便什么业务人员都会随时给研发人员下命令，长此以往，伤害了研发团队的积极性。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-01T13:04:59.342Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于团队">
+<meta name="twitter:description" content="团队建设存在问题：  业务配合不规范：产品、运营、研发部门之间配合没有建立合理的工作流程，比如对于产品需求的 PRD 评审没有标准，对于运营需求没有量化指标，大家都是疲于奔命做需求，导致大家的积极性不够高。 跨团队协作混乱：跨部门之间的工作配合毫无规范可言，部门之间相互推诿，随便什么业务人员都会随时给研发人员下命令，长此以往，伤害了研发团队的积极性。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/01/27/关于团队/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>关于团队 | meichao'notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">meichao'notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">未来你好 请多给点幸运</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/27/关于团队/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="梅超">
+      <meta itemprop="description" content="Xman">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="meichao'notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">关于团队
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-27 11:31:05" itemprop="dateCreated datePublished" datetime="2019-01-27T11:31:05+08:00">2019-01-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-01 21:04:59" itemprop="dateModified" datetime="2019-05-01T21:04:59+08:00">2019-05-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术人生/" itemprop="url" rel="index"><span itemprop="name">技术人生</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="团队建设"><a href="#团队建设" class="headerlink" title="团队建设"></a>团队建设</h3><p>存在问题：</p>
+<ul>
+<li>业务配合不规范：产品、运营、研发部门之间配合没有建立合理的工作流程，比如对于产品需求的 PRD 评审没有标准，对于运营需求没有量化指标，大家都是疲于奔命做需求，导致大家的积极性不够高。</li>
+<li>跨团队协作混乱：跨部门之间的工作配合毫无规范可言，部门之间相互推诿，随便什么业务人员都会随时给研发人员下命令，长此以往，伤害了研发团队的积极性。</li>
+</ul>
+<a id="more"></a>
+<p>制定了相对合理、规范的产品合作流程，同产品同学约法三章，明确了 PRD 输出的标准和规范，运营的业务需求也统一由产品输出，杜绝一句话需求。</p>
+<p>业务部门人员随便指派任务，随意变更需求，团队同学无所适从。这样一来，部门内部无论怎样合理的计划都会被外部的力量轻易打破，让团队同学无所适从，导致大家的工作积极性不高，喜欢互相推卸责任。</p>
+<p>久而久之，员工就产生了自我保护意识，凡工作尽量往后退，凡责任尽量往别处推，不求有功但求无过。</p>
+<p>为打破员工养成的这种自我封闭的保护意识，鼓励员工更加积极主动做事情，我能够做的就是把这些责任都扛在自己身上，亲自去协调每项工作。</p>
+<h3 id="团队管理"><a href="#团队管理" class="headerlink" title="团队管理"></a>团队管理</h3><p>作为一个团队的管理者，通常会有两种风格管理策略，简要概括为：<br>集权式的管理风格<br>放权式的管理风格</p>
+<p>集权式管理：管理者的风格是偏细节的，定义清晰的工作目标，并且把工作目标分解得非常细致，让手下的团队能按照整个计划步步为营往前推进，这是一种风格，相对来讲比较集权。</p>
+<p>对研发团队会做详细的 Code Review，亲自带领研发团队做技术交流和分享，参与技术讨论确认架构方案，这样以来和大家建立起了充分的信任。</p>
+<p>放权式管理：定义大的目标，把握大的方向，做关键性的决策。但是并不深入每个细节去管控手下团队的执行细节，以结果为导向。</p>
+<p>以上这两类管理风格没有对错之分，究竟哪种方式更适合完全取决于团队的状况。</p>
+<p>其实这里我更想说一下关于放权式的管理风格，对于一个制度刚刚建立，流程还没有跑顺畅，团队残缺，骨干员工业务能力不及格的团队，采用放权式管理是错误的。</p>
+<p>你必须事无巨细，从第一线的业务细节抓起，手把手的带员工，教会他们怎么正确的做事情，怎样达到你的要求，手把手的培养业务骨干，搭建团队核心架构。</p>
+<h3 id="团队文化"><a href="#团队文化" class="headerlink" title="团队文化"></a>团队文化</h3><p>衡量一个团队文化氛围是否有吸引力，有一个重要指标，是新员工的流失率：</p>
+<ul>
+<li>如果一个团队氛围非常好，新员工入职以后往往能够快速融入进来，流失率很低</li>
+<li>如果团队氛围差，新员工入职以后比较茫然，往往会很快离职，流失率很高</li>
+</ul>
+<p>我希望给团队树立的文化：</p>
+<ul>
+<li>坦诚，公开，透明</li>
+<li>平等相处，消除等级感</li>
+<li>工作氛围轻松，团队关系和谐</li>
+<li>勇于担当，主动承担责任</li>
+<li>成就他人，乐于分享</li>
+</ul>
+<p>如何建立人才梯队的，其实就是要建立学习型组织，让大家积极参与学习与分享。<br>具体做法 KPI 里设置一项技术分享与团队贡献，团队内部轮流进行技术分享，一方面让大家去学习、研究一些前沿技术。</p>
+<p>1on1 沟通聊什么<br>在《创业维艰：如何完成比难更难的事》这本书中专门拿出了一节提到了一对一沟通（1on1），具体聊那些内容给了一些建议。<br>话题：<br>你有没有认为自己的价值和能力被低估了吗？为什么？<br>你觉得在工作中能学到东西吗？你最近学到了什么？你还希望在哪些领域进行学习？<br>近期这段时间，对自己有哪些满意、不满意的地方？<br>目前工作中，有哪些困惑？希望我如何去帮助你？<br>对团队和我的一些期待和建议。<br>在公司战略和目标方面，你最不清楚的是什么?</p>
+<p>以上这些内容，除了在一对一沟通中交流之外，很难找到别的渠道来有效解决。</p>
+<p>通过这些 1on1 的沟通，真的可以得到很多反馈信息，甚至得到的一些信息令我感到吃惊，原来还有这些细节问题我没有做好。</p>
+<p>一对一沟通构造了一个渠道，这个渠道自下而上，使得以上这些内容都能够被倾听，从而被解决。</p>
+<p>尤其是团队可能会用到的一些技术储备，如果他真的能把这个技术给大家讲明白的话，那他就是真的掌握了，同时也让其他人开始了解并学习这项技术，同时还能够锻炼其演讲与口才。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/技术人生/" rel="tag"># 技术人生</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/31/mysql-binlog的3种复制形式及优缺点/" rel="next" title="mysql binlog的3种复制形式及优缺点">
+                <i class="fa fa-chevron-left"></i> mysql binlog的3种复制形式及优缺点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/13/redis-SortedSet-多字段排序设计/" rel="prev" title="Redis SortedSet 多字段排序设计">
+                Redis SortedSet 多字段排序设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+
+            <div>    
+       
+       
+      <ul class="post-copyright">
+        <li class="post-copyright-author">
+            <strong>本文作者：</strong>梅超
+        </li>
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="/2019/01/27/关于团队/" title="关于团队">2019/01/27/关于团队/</a>
+        </li>
+        <li class="post-copyright-license">
+          <strong>版权： </strong>
+          本站文章均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议，请勿用于商业，转载注明出处！
+        </li>
+      </ul>
+      
+      </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">梅超</p>
+              <div class="site-description motion-element" itemprop="description">Xman</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#团队建设"><span class="nav-number">1.</span> <span class="nav-text">团队建设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#团队管理"><span class="nav-number">2.</span> <span class="nav-text">团队管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#团队文化"><span class="nav-number">3.</span> <span class="nav-text">团队文化</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">梅超</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
